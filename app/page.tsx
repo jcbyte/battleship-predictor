@@ -1,6 +1,6 @@
 "use client";
 
-import { Box, IconButton, Typography } from "@mui/material";
+import { Box, Checkbox, FormControlLabel, IconButton, Typography } from "@mui/material";
 
 import { PropsWithChildren, useEffect, useState } from "react";
 
@@ -185,19 +185,23 @@ export default function Home() {
 		})
 	);
 	const [maxProbability, setMaxProbability] = useState<number>(0);
+	const [autoUpdateProbabilities, setAutoUpdateProbabilities] = useState<boolean>(true);
 
 	function updateTileState(x: number, y: number, state: CellData["state"]) {
 		var newBoard = [...board];
 		newBoard[x][y].state = state;
 
-		calculateProbabilities(newBoard);
+		if (autoUpdateProbabilities) calculateProbabilities(newBoard);
+		else setBoard(newBoard);
 	}
 
 	function calculateProbabilities(newBoard: CellData[][]) {
+		var newMaxProbability = 3;
+
 		newBoard[0][3].probability = 3;
 
 		setBoard(newBoard);
-		setMaxProbability(3);
+		setMaxProbability(newMaxProbability);
 	}
 
 	useEffect(() => {
@@ -245,6 +249,17 @@ export default function Home() {
 						return <GridItem key={i} tile={item} updateTileState={updateTileState} maxProbability={maxProbability} />;
 					})}
 				</Box>
+				<FormControlLabel
+					control={
+						<Checkbox
+							checked={autoUpdateProbabilities}
+							onChange={(event) => {
+								setAutoUpdateProbabilities(event.target.checked);
+							}}
+						/>
+					}
+					label="Automatically refresh probabilities"
+				/>
 			</Box>
 		</>
 	);
