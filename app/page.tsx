@@ -5,12 +5,14 @@ import { Box, IconButton, Typography } from "@mui/material";
 import { PropsWithChildren, useState } from "react";
 
 import DirectionsBoatIcon from "@mui/icons-material/DirectionsBoat";
+import UndoIcon from "@mui/icons-material/Undo";
 import WavesIcon from "@mui/icons-material/Waves";
 
 interface CellData {
-	shot: boolean;
-	hit: boolean;
+	state: "unknown" | "hit" | "miss";
 	probability: number;
+	x: number;
+	y: number;
 }
 
 interface GameTile {
@@ -26,21 +28,64 @@ interface LabelTile {
 type Tile = GameTile | LabelTile;
 
 const BOARD_SIZE = 10;
+const TILE_COLOURS = {
+	label: "#dbcdf0",
+	lowProbability: "#faedcb",
+	highProbability: "#f2c6de",
+	hit: "#c9e4de",
+	miss: "#c6def1",
+};
 
-export const GridItem = (props: PropsWithChildren<{ tile: Tile }>) => {
-	var content = <></>;
+export const GridItem = (props: PropsWithChildren<{ tile: Tile; updateTileState: Function }>) => {
+	var boxColour = "#ffffff";
+	var boxContent = <></>;
+
 	if (props.tile.type == "label") {
-		content = <>{props.tile.text}</>;
+		boxColour = TILE_COLOURS["label"];
+		boxContent = <>{props.tile.text}</>;
 	} else if (props.tile.type == "game") {
-		content = (
+		var tile: GameTile = props.tile as GameTile;
+		boxColour = { unknown: TILE_COLOURS["highProbability"], hit: TILE_COLOURS["hit"], miss: TILE_COLOURS["miss"] }[
+			tile.data.state
+		];
+		var text = { unknown: "Unknown", hit: "Hit", miss: "Miss" }[tile.data.state];
+		boxContent = (
 			<>
-				<Box sx={{ display: "flex", justifyContent: "center" }}>
-					<IconButton size="small">
-						<DirectionsBoatIcon />
-					</IconButton>
-					<IconButton size="small">
-						<WavesIcon />
-					</IconButton>
+				<Box sx={{ display: "flex", flexDirection: "column", height: "90px" }}>
+					<Box sx={{ flexGrow: 1, display: "flex", justifyContent: "center", alignItems: "center" }}>
+						<Typography>{text}</Typography>
+					</Box>
+					<Box sx={{ display: "flex", justifyContent: "center" }}>
+						{tile.data.state == "unknown" ? (
+							<>
+								<IconButton
+									size="small"
+									onClick={() => {
+										props.updateTileState(tile.data.x, tile.data.y, "hit");
+									}}
+								>
+									<DirectionsBoatIcon />
+								</IconButton>
+								<IconButton
+									size="small"
+									onClick={() => {
+										props.updateTileState(tile.data.x, tile.data.y, "miss");
+									}}
+								>
+									<WavesIcon />
+								</IconButton>
+							</>
+						) : (
+							<IconButton
+								size="small"
+								onClick={() => {
+									props.updateTileState(tile.data.x, tile.data.y, "unknown");
+								}}
+							>
+								<UndoIcon />
+							</IconButton>
+						)}
+					</Box>
 				</Box>
 			</>
 		);
@@ -49,23 +94,29 @@ export const GridItem = (props: PropsWithChildren<{ tile: Tile }>) => {
 	return (
 		<Box
 			sx={{
-				backgroundColor: "#aa88aa",
+				backgroundColor: boxColour,
 				aspectRatio: "1",
 			}}
 		>
-			{content}
+			{boxContent}
 		</Box>
 	);
 };
 
 export default function Home() {
 	const [board, setBoard] = useState<CellData[][]>(
-		[...Array(BOARD_SIZE)].map(() => {
-			return [...Array(BOARD_SIZE)].map(() => {
-				return { shot: false, hit: false, probability: 0 } as CellData;
+		[...Array(BOARD_SIZE)].map((item, x) => {
+			return [...Array(BOARD_SIZE)].map((item, y) => {
+				return { state: "unknown", probability: 0, x: x, y: y } as CellData;
 			});
 		})
 	);
+
+	function updateTileState(x: number, y: number, state: CellData["state"]) {
+		var newBoard = [...board];
+		newBoard[x][y].state = state;
+		setBoard(newBoard);
+	}
 
 	return (
 		<>
@@ -105,7 +156,7 @@ export default function Home() {
 								.flat(1),
 						] as Tile[]
 					).map((item, i) => {
-						return <GridItem key={i} tile={item} />;
+						return <GridItem key={i} tile={item} updateTileState={updateTileState} />;
 					})}
 				</Box>
 			</Box>
