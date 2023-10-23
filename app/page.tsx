@@ -31,7 +31,14 @@ interface Ship {
 	length: number;
 }
 
+interface BoardShip extends Ship {
+	sunk: boolean;
+}
+
 type Tile = GameTile | LabelTile;
+
+// TODO remove ships once sunk
+// TODO calculation
 
 const COLUMN_IDENTIFIERS = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"];
 const ROW_INDENTIFIERS = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L"];
@@ -43,7 +50,7 @@ const TILE_COLOURS = {
 	hit: "#c9e4de",
 	miss: "#c6def1",
 };
-const SHIPS: Ship[] = [{ length: 5 }, { length: 4 }, { length: 3 }, { length: 3 }, { length: 2 }];
+const STARTING_SHIPS: Ship[] = [{ length: 5 }, { length: 4 }, { length: 3 }, { length: 3 }, { length: 2 }];
 
 function colourLerp(a: string, b: string, t: number): string {
 	function hexToRgb(hex: string): { r: number; g: number; b: number } {
@@ -186,6 +193,11 @@ export default function Home() {
 	);
 	const [maxProbability, setMaxProbability] = useState<number>(0);
 	const [autoUpdateProbabilities, setAutoUpdateProbabilities] = useState<boolean>(true);
+	const [ships, setShips] = useState<BoardShip[]>(
+		STARTING_SHIPS.map((ship) => {
+			return { ...ship, sunk: false };
+		})
+	);
 
 	function updateTileState(x: number, y: number, state: CellData["state"]) {
 		var newBoard = [...board];
@@ -198,7 +210,14 @@ export default function Home() {
 	function calculateProbabilities(newBoard: CellData[][]) {
 		var newMaxProbability = 3;
 
-		newBoard[0][3].probability = 3;
+		for (var x = 0; x < BOARD_SIZE; x++) {
+			for (var y = 0; y < BOARD_SIZE; y++) {
+				var probability = 0;
+				ships.forEach((ship) => {
+					console.log(ship);
+				});
+			}
+		}
 
 		setBoard(newBoard);
 		setMaxProbability(newMaxProbability);
@@ -208,58 +227,103 @@ export default function Home() {
 		calculateProbabilities(board);
 	}, []);
 
+	function toggleShip(shipIndex: number) {
+		var newShips = [...ships];
+		newShips[shipIndex].sunk = !newShips[shipIndex].sunk;
+		setShips(newShips);
+	}
+
 	return (
 		<>
 			<Box sx={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
 				<Typography variant="h2" fontWeight="bold">
 					Battleship Predictor
 				</Typography>
-				<Box
-					sx={{
-						display: "grid",
-						gridTemplateColumns: `repeat(${BOARD_SIZE + 1}, 1fr)`,
-						gridGap: "1px",
-						margin: "10px",
-						width: "1000px",
-						padding: "0px",
-						backgroundColor: "#000",
-						borderRadius: "10px",
-						overflow: "hidden",
-					}}
-				>
-					{(
-						[
-							{ text: "", type: "label" } as LabelTile,
-							...[...Array<LabelTile>(BOARD_SIZE)].map((item, i) => {
-								return { text: COLUMN_IDENTIFIERS[i], type: "label" } as LabelTile;
-							}),
-							,
-							...board
-								.map((row, i) => {
-									return [
-										{ text: ROW_INDENTIFIERS[i], type: "label" } as LabelTile,
-										...row.map((item, i) => {
-											return { data: item, type: "game" } as GameTile;
-										}),
-									];
-								})
-								.flat(1),
-						] as Tile[]
-					).map((item, i) => {
-						return <GridItem key={i} tile={item} updateTileState={updateTileState} maxProbability={maxProbability} />;
-					})}
-				</Box>
-				<FormControlLabel
-					control={
-						<Checkbox
-							checked={autoUpdateProbabilities}
-							onChange={(event) => {
-								setAutoUpdateProbabilities(event.target.checked);
+				<Box sx={{ display: "flex", alignItems: "center" }}>
+					<Box
+						sx={{
+							display: "flex",
+							flexDirection: "column",
+							padding: "5px",
+							border: "1px solid black",
+							borderRadius: "5px",
+						}}
+					>
+						<Typography variant="h5">Ships</Typography>
+						<Box sx={{ display: "flex", flexDirection: "column" }}>
+							{ships.map((ship, i) => {
+								return (
+									<FormControlLabel
+										key={i}
+										control={
+											<Checkbox
+												checked={ship.sunk}
+												onClick={() => {
+													toggleShip(i);
+												}}
+											/>
+										}
+										label={
+											<Typography
+												sx={{ textDecoration: ship.sunk ? "line-through" : "none" }}
+											>{`${ship.length} Ship`}</Typography>
+										}
+									/>
+								);
+							})}
+						</Box>
+					</Box>
+					<Box sx={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
+						<Box
+							sx={{
+								display: "grid",
+								gridTemplateColumns: `repeat(${BOARD_SIZE + 1}, 1fr)`,
+								gridGap: "1px",
+								margin: "10px",
+								width: "1000px",
+								padding: "0px",
+								backgroundColor: "#000",
+								borderRadius: "10px",
+								overflow: "hidden",
 							}}
+						>
+							{(
+								[
+									{ text: "", type: "label" } as LabelTile,
+									...[...Array<LabelTile>(BOARD_SIZE)].map((item, i) => {
+										return { text: COLUMN_IDENTIFIERS[i], type: "label" } as LabelTile;
+									}),
+									,
+									...board
+										.map((row, i) => {
+											return [
+												{ text: ROW_INDENTIFIERS[i], type: "label" } as LabelTile,
+												...row.map((item, i) => {
+													return { data: item, type: "game" } as GameTile;
+												}),
+											];
+										})
+										.flat(1),
+								] as Tile[]
+							).map((item, i) => {
+								return (
+									<GridItem key={i} tile={item} updateTileState={updateTileState} maxProbability={maxProbability} />
+								);
+							})}
+						</Box>
+						<FormControlLabel
+							control={
+								<Checkbox
+									checked={autoUpdateProbabilities}
+									onChange={(event) => {
+										setAutoUpdateProbabilities(event.target.checked);
+									}}
+								/>
+							}
+							label="Automatically refresh probabilities"
 						/>
-					}
-					label="Automatically refresh probabilities"
-				/>
+					</Box>
+				</Box>
 			</Box>
 		</>
 	);
