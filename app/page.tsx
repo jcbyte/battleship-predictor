@@ -99,7 +99,7 @@ export const GridItem = (
 	} else if (props.tile.type == "game") {
 		var tile: GameTile = props.tile as GameTile;
 		boxColour =
-			tile.data.probability == props.maxProbability
+			props.maxProbability > 0 && tile.data.probability == props.maxProbability
 				? TILE_COLOURS["maxProbability"]
 				: {
 						unknown: colourLerp(
@@ -140,7 +140,9 @@ export const GridItem = (
 							</>
 						) : (
 							<>
-								{tile.data.state == "hit" ? (
+								{tile.data.state == "miss" ? (
+									<></>
+								) : tile.data.state == "hit" ? (
 									<IconButton
 										size="small"
 										onClick={() => {
