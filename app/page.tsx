@@ -42,13 +42,15 @@ const COLUMN_IDENTIFIERS = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "
 const ROW_INDENTIFIERS = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L"];
 const BOARD_SIZE = 10;
 const TILE_COLOURS = {
-	label: "#dbcdf0",
-	lowProbability: "#faedcb",
-	highProbability: "#f2c6de",
-	hit: "#c9e4de",
-	miss: "#c6def1",
+	label: "#60278B",
+	lowProbability: "#8B6027",
+	highProbability: "#8B2E27",
+	hit: "#528B27",
+	sunk: "#278B2E",
+	miss: "#278B60",
 };
 const STARTING_SHIPS: Ship[] = [{ length: 5 }, { length: 4 }, { length: 3 }, { length: 3 }, { length: 2 }];
+const HIT_MULTIPLIER = 20;
 
 function colourLerp(a: string, b: string, t: number): string {
 	function hexToRgb(hex: string): { r: number; g: number; b: number } {
@@ -102,7 +104,7 @@ export const GridItem = (
 				props.maxProbability > 0 ? tile.data.probability / props.maxProbability : 0
 			),
 			hit: TILE_COLOURS["hit"],
-			sunk: TILE_COLOURS["hit"],
+			sunk: TILE_COLOURS["sunk"],
 			miss: TILE_COLOURS["miss"],
 		}[tile.data.state];
 		var text = { unknown: "Unknown", hit: "Hit", sunk: "Sunk", miss: "Miss" }[tile.data.state];
@@ -211,10 +213,12 @@ export default function Home() {
 		for (var x = 0; x < BOARD_SIZE; x++) {
 			for (var y = 0; y < BOARD_SIZE; y++) {
 				var probability = 0;
-				ships.forEach((ship) => {
-					console.log(ship);
-					// TODO
-				});
+				ships
+					.filter((ship) => !ship.sunk)
+					.forEach((ship) => {
+						console.log(ship);
+						// TODO
+					});
 			}
 		}
 
