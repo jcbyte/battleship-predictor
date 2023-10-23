@@ -1,12 +1,13 @@
 "use client";
 
-import { Box, Checkbox, FormControlLabel, IconButton, Typography } from "@mui/material";
+import { Box, Button, Checkbox, FormControlLabel, IconButton, Typography } from "@mui/material";
 
 import { PropsWithChildren, useEffect, useState } from "react";
 
 import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
 import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
 import DirectionsBoatIcon from "@mui/icons-material/DirectionsBoat";
+import RefreshIcon from "@mui/icons-material/Refresh";
 import UndoIcon from "@mui/icons-material/Undo";
 import WavesIcon from "@mui/icons-material/Waves";
 
@@ -36,9 +37,6 @@ interface BoardShip extends Ship {
 }
 
 type Tile = GameTile | LabelTile;
-
-// TODO remove ships once sunk
-// TODO calculation
 
 const COLUMN_IDENTIFIERS = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"];
 const ROW_INDENTIFIERS = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L"];
@@ -215,6 +213,7 @@ export default function Home() {
 				var probability = 0;
 				ships.forEach((ship) => {
 					console.log(ship);
+					// TODO
 				});
 			}
 		}
@@ -322,6 +321,15 @@ export default function Home() {
 							}
 							label="Automatically refresh probabilities"
 						/>
+						<Button
+							variant="outlined"
+							endIcon={<RefreshIcon />}
+							onClick={() => {
+								calculateProbabilities(board);
+							}}
+						>
+							Refresh
+						</Button>
 					</Box>
 				</Box>
 			</Box>
