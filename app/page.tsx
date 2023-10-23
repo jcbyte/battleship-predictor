@@ -45,6 +45,7 @@ const TILE_COLOURS = {
 	label: "#60278B",
 	lowProbability: "#8B6027",
 	highProbability: "#8B2E27",
+	maxProbability: "#8b2745",
 	hit: "#528B27",
 	sunk: "#278B2E",
 	miss: "#278B60",
@@ -97,16 +98,19 @@ export const GridItem = (
 		);
 	} else if (props.tile.type == "game") {
 		var tile: GameTile = props.tile as GameTile;
-		boxColour = {
-			unknown: colourLerp(
-				TILE_COLOURS["lowProbability"],
-				TILE_COLOURS["highProbability"],
-				props.maxProbability > 0 ? tile.data.probability / props.maxProbability : 0
-			),
-			hit: TILE_COLOURS["hit"],
-			sunk: TILE_COLOURS["sunk"],
-			miss: TILE_COLOURS["miss"],
-		}[tile.data.state];
+		boxColour =
+			tile.data.probability == props.maxProbability
+				? TILE_COLOURS["maxProbability"]
+				: {
+						unknown: colourLerp(
+							TILE_COLOURS["lowProbability"],
+							TILE_COLOURS["highProbability"],
+							props.maxProbability > 0 ? tile.data.probability / props.maxProbability : 0
+						),
+						hit: TILE_COLOURS["hit"],
+						sunk: TILE_COLOURS["sunk"],
+						miss: TILE_COLOURS["miss"],
+				  }[tile.data.state];
 		var text = { unknown: "Unknown", hit: "Hit", sunk: "Sunk", miss: "Miss" }[tile.data.state];
 		boxContent = (
 			<>
@@ -208,17 +212,48 @@ export default function Home() {
 	}
 
 	function calculateProbabilities(newBoard: CellData[][]) {
-		var newMaxProbability = 3;
+		var newMaxProbability = 0;
+
+		function stateToSpace(state: CellData["state"]): number {
+			if (state == "unknown") return 1;
+			if (state == "hit") return HIT_MULTIPLIER;
+			return 0;
+		}
 
 		for (var x = 0; x < BOARD_SIZE; x++) {
 			for (var y = 0; y < BOARD_SIZE; y++) {
 				var probability = 0;
-				ships
-					.filter((ship) => !ship.sunk)
-					.forEach((ship) => {
-						console.log(ship);
-						// TODO
-					});
+				if (board[x][y].state == "unknown") {
+					ships
+						.filter((ship) => !ship.sunk)
+						.forEach((ship) => {
+							var horizontal = [];
+							var vertical = [];
+
+							for (var i = -ship.length + 1; i < ship.length; i++) {
+								var newX = x + i;
+								if (newX < 0 || newX >= BOARD_SIZE) horizontal.push(0);
+								else horizontal.push(stateToSpace(board[newX][y].state));
+
+								var newY = y + i;
+								if (newY < 0 || newY >= BOARD_SIZE) vertical.push(0);
+								else vertical.push(stateToSpace(board[x][newY].state));
+							}
+
+							for (var i = 0; i < ship.length; i++) {
+								var thisProbabilityHorizontal = 1;
+								var thisProbabilityVertical = 1;
+								for (var j = i; j < i + ship.length; j++) {
+									thisProbabilityHorizontal *= horizontal[j];
+									thisProbabilityVertical *= vertical[j];
+								}
+
+								probability += thisProbabilityHorizontal + thisProbabilityVertical;
+							}
+						});
+				}
+				if (probability > newMaxProbability) newMaxProbability = probability;
+				newBoard[x][y].probability = probability;
 			}
 		}
 
@@ -229,6 +264,10 @@ export default function Home() {
 	useEffect(() => {
 		calculateProbabilities(board);
 	}, []);
+
+	useEffect(() => {
+		if (autoUpdateProbabilities) calculateProbabilities(board);
+	}, [ships]);
 
 	function toggleShip(shipIndex: number) {
 		var newShips = [...ships];
