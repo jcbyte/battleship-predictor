@@ -1,42 +1,14 @@
 "use client";
 
-import { Box, Button, Checkbox, FormControlLabel, IconButton, Typography } from "@mui/material";
-
-import { PropsWithChildren, useEffect, useState } from "react";
-
 import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
 import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
 import DirectionsBoatIcon from "@mui/icons-material/DirectionsBoat";
 import RefreshIcon from "@mui/icons-material/Refresh";
 import UndoIcon from "@mui/icons-material/Undo";
 import WavesIcon from "@mui/icons-material/Waves";
-
-interface CellData {
-	state: "unknown" | "hit" | "miss" | "sunk";
-	probability: number;
-	x: number;
-	y: number;
-}
-
-interface GameTile {
-	type: "game";
-	data: CellData;
-}
-
-interface LabelTile {
-	type: "label";
-	text: string;
-}
-
-interface Ship {
-	length: number;
-}
-
-interface BoardShip extends Ship {
-	sunk: boolean;
-}
-
-type Tile = GameTile | LabelTile;
+import { Box, Button, Checkbox, FormControlLabel, IconButton, Typography } from "@mui/material";
+import { PropsWithChildren, useEffect, useState } from "react";
+import { BoardShip, CellData, GameTile, LabelTile, Ship, Tile } from "./types";
 
 const COLUMN_IDENTIFIERS = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"];
 const ROW_IDENTIFIERS = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L"];
