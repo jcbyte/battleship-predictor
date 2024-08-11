@@ -24,3 +24,8 @@ export interface BoardShip extends Ship {
 }
 
 export type Tile = GameTile | LabelTile;
+
+export type Tile2 = { type: "game" | "label" } & (
+	| { type: "game"; state: "unknown" | "hit" | "miss" | "sunk"; probability: number; x: number; y: number }
+	| { type: "label"; text: string }
+);
