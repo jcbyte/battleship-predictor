@@ -39,7 +39,7 @@ interface BoardShip extends Ship {
 type Tile = GameTile | LabelTile;
 
 const COLUMN_IDENTIFIERS = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"];
-const ROW_INDENTIFIERS = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L"];
+const ROW_IDENTIFIERS = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L"];
 const BOARD_SIZE = 10;
 const TILE_COLOURS = {
 	label: "#60278B",
@@ -341,7 +341,7 @@ export default function Home() {
 									...board
 										.map((row, i) => {
 											return [
-												{ text: ROW_INDENTIFIERS[i], type: "label" } as LabelTile,
+												{ text: ROW_IDENTIFIERS[i], type: "label" } as LabelTile,
 												...row.map((item, i) => {
 													return { data: item, type: "game" } as GameTile;
 												}),
