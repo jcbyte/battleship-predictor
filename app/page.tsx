@@ -8,22 +8,15 @@ import UndoIcon from "@mui/icons-material/Undo";
 import WavesIcon from "@mui/icons-material/Waves";
 import { Box, Button, Checkbox, FormControlLabel, IconButton, Typography } from "@mui/material";
 import { PropsWithChildren, useEffect, useState } from "react";
-import { BoardShip, CellData, GameTile, LabelTile, Ship, Tile } from "./types";
-
-const COLUMN_IDENTIFIERS = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"];
-const ROW_IDENTIFIERS = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L"];
-const BOARD_SIZE = 10;
-const TILE_COLOURS = {
-	label: "#60278B",
-	lowProbability: "#8B6027",
-	highProbability: "#8B2E27",
-	maxProbability: "#8b2745",
-	hit: "#528B27",
-	sunk: "#278B2E",
-	miss: "#278B60",
-};
-const STARTING_SHIPS: Ship[] = [{ length: 5 }, { length: 4 }, { length: 3 }, { length: 3 }, { length: 2 }];
-const HIT_MULTIPLIER = 20;
+import {
+	BOARD_SIZE,
+	COLUMN_IDENTIFIERS,
+	HIT_MULTIPLIER,
+	ROW_IDENTIFIERS,
+	STARTING_SHIPS,
+	TILE_COLOURS,
+} from "./static";
+import { BoardShip, CellData, GameTile, LabelTile, Tile } from "./types";
 
 function colourLerp(a: string, b: string, t: number): string {
 	function hexToRgb(hex: string): { r: number; g: number; b: number } {
