@@ -2,17 +2,17 @@
 
 import { useState } from "react";
 import { BOARD_SIZE, STARTING_SHIPS2 } from "./static";
-import { CellData2, Ship2 } from "./types";
+import { CellData, Ship } from "./types";
 
 export default function Page() {
-	const [board, setBoard] = useState<CellData2[][]>(
+	const [board, setBoard] = useState<CellData[][]>(
 		[...Array(BOARD_SIZE)].map(() => {
 			return [...Array(BOARD_SIZE)].map(() => {
-				return { state: "unknown", probability: 0 } as CellData2;
+				return { state: "unknown", probability: 0 } as CellData;
 			});
 		})
 	);
-	const [ships, setShips] = useState<Ship2[]>(
+	const [ships, setShips] = useState<Ship[]>(
 		STARTING_SHIPS2.map((length) => {
 			return { length: length, sunk: false };
 		})

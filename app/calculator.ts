@@ -1,8 +1,8 @@
 import { BOARD_SIZE, HIT_MULTIPLIER } from "./static";
-import { CellData2, Ship2 } from "./types";
+import { CellData, Ship } from "./types";
 
 // Calculate the "probabilities" of a ship being in this location
-export function calculateProbabilities(board: CellData2[][], ships: Ship2[]) {
+export function calculateProbabilities(board: CellData[][], ships: Ship[]) {
 	// The value represents 1 for each possible tile in a possible boats position and
 	// a `HIT_MULTIPLIER` for each hit tile in a possible boats position
 	// ...
@@ -35,7 +35,7 @@ export function calculateProbabilities(board: CellData2[][], ships: Ship2[]) {
 					.filter((ship) => !ship.sunk)
 					.forEach((ship) => {
 						// Add all possible connecting tile
-						let possibleCells: CellData2[] = [];
+						let possibleCells: CellData[] = [];
 						for (let i = -ship.length; i < ship.length; i++) {
 							// Do not include itself
 							if (i == 0) continue;
@@ -63,7 +63,7 @@ export function calculateProbabilities(board: CellData2[][], ships: Ship2[]) {
 	}
 
 	// Create new board with updated probabilities
-	let newBoard: CellData2[][] = [...Array(BOARD_SIZE)].map((item, x) => {
+	let newBoard: CellData[][] = [...Array(BOARD_SIZE)].map((item, x) => {
 		return [...Array(BOARD_SIZE)].map((item, y) => {
 			return { ...board[x][y], probability: values[x][y] / maxValue };
 		});
