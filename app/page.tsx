@@ -1,14 +1,15 @@
 "use client";
 
 import { useState } from "react";
+import Board from "./Board";
 import { BOARD_SIZE, STARTING_SHIPS2 } from "./static";
 import { CellData, Ship } from "./types";
 
 export default function Page() {
 	const [board, setBoard] = useState<CellData[][]>(
-		[...Array(BOARD_SIZE)].map(() => {
+		[...Array(BOARD_SIZE)].map((item, x) => {
 			return [...Array(BOARD_SIZE)].map(() => {
-				return { state: "unknown", probability: 0 } as CellData;
+				return { state: "unknown", probability: x } as CellData;
 			});
 		})
 	);
@@ -20,7 +21,11 @@ export default function Page() {
 
 	const [autoUpdateProbabilities, setAutoUpdateProbabilities] = useState<boolean>(true);
 
-	return <></>;
+	return (
+		<>
+			<Board board={board} />
+		</>
+	);
 }
 
 // export default function Home() {
