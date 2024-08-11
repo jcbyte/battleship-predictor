@@ -18,4 +18,4 @@ export const TILE_COLOURS = {
 export const STARTING_SHIPS: Ship[] = [{ length: 5 }, { length: 4 }, { length: 3 }, { length: 3 }, { length: 2 }];
 export const STARTING_SHIPS2: number[] = [5, 4, 3, 3, 2];
 
-export const HIT_MULTIPLIER = 20;
+export const HIT_MULTIPLIER: number = 20;

@@ -34,52 +34,6 @@ export default function Page() {
 // 		else setBoard(newBoard);
 // 	}
 
-// 	function calculateProbabilities(newBoard: CellData[][]) {
-// 		var newMaxProbability = 0;
-
-// 		function stateToSpace(state: CellData["state"]): number {
-// 			if (state == "unknown") return 1;
-// 			if (state == "hit") return HIT_MULTIPLIER;
-// 			return 0;
-// 		}
-
-// 		for (var x = 0; x < BOARD_SIZE; x++) {
-// 			for (var y = 0; y < BOARD_SIZE; y++) {
-// 				var probability = 0;
-// 				if (board[x][y].state == "unknown") {
-// 					ships
-// 						.filter((ship) => !ship.sunk)
-// 						.forEach((ship) => {
-// 							var horizontal = [];
-// 							var vertical = [];
-
-// 							for (var i = -ship.length + 1; i < ship.length; i++) {
-// 								var newX = x + i;
-// 								if (newX < 0 || newX >= BOARD_SIZE) horizontal.push(0);
-// 								else horizontal.push(stateToSpace(board[newX][y].state));
-
-// 								var newY = y + i;
-// 								if (newY < 0 || newY >= BOARD_SIZE) vertical.push(0);
-// 								else vertical.push(stateToSpace(board[x][newY].state));
-// 							}
-
-// 							for (var i = 0; i < ship.length; i++) {
-// 								var thisProbabilityHorizontal = 1;
-// 								var thisProbabilityVertical = 1;
-// 								for (var j = i; j < i + ship.length; j++) {
-// 									thisProbabilityHorizontal *= horizontal[j];
-// 									thisProbabilityVertical *= vertical[j];
-// 								}
-
-// 								probability += thisProbabilityHorizontal + thisProbabilityVertical;
-// 							}
-// 						});
-// 				}
-// 				if (probability > newMaxProbability) newMaxProbability = probability;
-// 				newBoard[x][y].probability = probability;
-// 			}
-// 		}
-
 // 		setBoard(newBoard);
 // 		setMaxProbability(newMaxProbability);
 // 	}
