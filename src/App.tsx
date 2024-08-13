@@ -1,3 +1,3 @@
 export default function App() {
-	return <>todo</>;
+	return <div className="text-5xl">todo</div>;
 }
