@@ -1,4 +1,4 @@
-import { CellData } from "./types";
+import { CellData } from "../types";
 
 export default function Board({ board }: { board: CellData[][] }) {
 	return (

@@ -1,5 +1,5 @@
-import { BOARD_SIZE, HIT_MULTIPLIER } from "./static";
-import { CellData, Ship } from "./types";
+import { BOARD_SIZE, HIT_MULTIPLIER } from "../static";
+import { CellData, Ship } from "../types";
 
 // Calculate the "probabilities" of a ship being in this location
 export function calculateProbabilities(board: CellData[][], ships: Ship[]) {

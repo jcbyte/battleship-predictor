@@ -1,7 +1,7 @@
 import { useState } from "react";
+import { BOARD_SIZE, STARTING_SHIPS2 } from "../static";
+import { CellData, Ship } from "../types";
 import Board from "./Board";
-import { BOARD_SIZE, STARTING_SHIPS2 } from "./static";
-import { CellData, Ship } from "./types";
 
 export default function Page() {
 	const [board, setBoard] = useState<CellData[][]>(
