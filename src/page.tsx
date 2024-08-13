@@ -1,5 +1,3 @@
-"use client";
-
 import { useState } from "react";
 import Board from "./Board";
 import { BOARD_SIZE, STARTING_SHIPS2 } from "./static";

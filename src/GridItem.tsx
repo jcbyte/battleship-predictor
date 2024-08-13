@@ -1,3 +1,5 @@
+export {};
+
 // import { Box, IconButton, Typography } from "@mui/material";
 // import { TILE_COLOURS } from "./static";
 // import { GameTile, Tile } from "./types";
