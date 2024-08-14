@@ -1,7 +1,21 @@
+import { colourLerp } from "../scripts/utils";
+import { TILE_COLOURS } from "../static";
 import { Tile } from "../types";
 
 export default function GridItem({ tile }: { tile: Tile }) {
-	return <div className="bg-orange-400 size-12">{tile.type == "label" ? tile.text : tile.probability}</div>;
+	return (
+		<div
+			className="size-12"
+			style={{
+				backgroundColor:
+					tile.type == "label"
+						? TILE_COLOURS["label"]
+						: colourLerp(TILE_COLOURS.lowProbability, TILE_COLOURS.highProbability, tile.probability),
+			}}
+		>
+			{tile.type == "label" ? tile.text : "Tile"}
+		</div>
+	);
 }
 
 // import { Box, IconButton, Typography } from "@mui/material";
