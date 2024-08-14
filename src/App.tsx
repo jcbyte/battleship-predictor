@@ -7,7 +7,7 @@ export default function App() {
 	const [board, setBoard] = useState<CellData[][]>(
 		[...Array(BOARD_SIZE)].map((item, x) => {
 			return [...Array(BOARD_SIZE)].map(() => {
-				return { state: "unknown", probability: x / 10 } as CellData;
+				return { state: "unknown", probability: x / 9 } as CellData;
 			});
 		})
 	);

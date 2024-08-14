@@ -5,12 +5,13 @@ import { Tile } from "../types";
 export default function GridItem({ tile }: { tile: Tile }) {
 	return (
 		<div
-			className="size-16 border border-black/20"
+			className="size-16 border"
 			style={{
 				backgroundColor:
 					tile.type == "label"
 						? TILE_COLOURS["label"]
 						: colourLerp(TILE_COLOURS.lowProbability, TILE_COLOURS.highProbability, tile.probability),
+				borderColor: tile.type == "game" && tile.probability == 1 ? "#e11d48cc" : "#00000033",
 			}}
 		>
 			{tile.type == "label" ? tile.text : "Tile"}
