@@ -21,7 +21,10 @@ export default function App() {
 
 	return (
 		<>
-			<Board board={board} />
+			<div className="flex flex-col gap-4 items-center p-4">
+				<span className="text-zinc-100 text-4xl font-semibold">Battleship Predictor</span>
+				<Board board={board} />
+			</div>
 		</>
 	);
 }
