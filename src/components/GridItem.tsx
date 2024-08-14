@@ -1,7 +1,7 @@
-import { CellData } from "../types";
+import { Tile } from "../types";
 
-export default function GridItem({ cell }: { cell: CellData }) {
-	return <div>{cell.probability}</div>;
+export default function GridItem({ tile }: { tile: Tile }) {
+	return <div className="bg-orange-400">{tile.type == "label" ? tile.text : tile.probability}</div>;
 }
 
 // import { Box, IconButton, Typography } from "@mui/material";
