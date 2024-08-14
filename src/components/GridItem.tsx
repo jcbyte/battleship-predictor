@@ -14,7 +14,11 @@ export default function GridItem({ tile }: { tile: Tile }) {
 				borderColor: tile.type == "game" && tile.probability == 1 ? "#e11d48cc" : "#00000033",
 			}}
 		>
-			{tile.type == "label" ? tile.text : "Tile"}
+			{tile.type == "label" ? (
+				<div className="flex items-center justify-center h-full text-xl">{tile.text}</div>
+			) : (
+				"Tile"
+			)}
 		</div>
 	);
 }
