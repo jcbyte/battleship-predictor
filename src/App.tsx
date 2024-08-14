@@ -4,6 +4,13 @@ import { calculateProbabilities } from "./scripts/calculator";
 import { BOARD_SIZE, STARTING_SHIPS2 } from "./static";
 import { CellData, Ship } from "./types";
 
+// TODO ships section
+// TODO auto update setting
+// TODO reset
+
+// TODO grid item controls
+// TODO documentation including readme
+
 export default function App() {
 	const [board, setBoard] = useState<CellData[][]>(
 		[...Array(BOARD_SIZE)].map((item, x) => {
