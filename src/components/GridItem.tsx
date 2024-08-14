@@ -1,4 +1,8 @@
-export {};
+import { CellData } from "../types";
+
+export default function GridItem({ cell }: { cell: CellData }) {
+	return <div>{cell.probability}</div>;
+}
 
 // import { Box, IconButton, Typography } from "@mui/material";
 // import { TILE_COLOURS } from "./static";
