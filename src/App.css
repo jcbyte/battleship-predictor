@@ -3,5 +3,5 @@
 @tailwind utilities;
 
 main {
-	min-height: 100vh;
+	@apply min-h-screen bg-zinc-800;
 }
