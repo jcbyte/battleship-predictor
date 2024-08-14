@@ -5,7 +5,7 @@ import { Tile } from "../types";
 export default function GridItem({ tile }: { tile: Tile }) {
 	return (
 		<div
-			className="size-12"
+			className="size-12 border border-black/20"
 			style={{
 				backgroundColor:
 					tile.type == "label"

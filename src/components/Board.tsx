@@ -5,7 +5,7 @@ import GridItem from "./GridItem";
 export default function Board({ board }: { board: CellData[][] }) {
 	return (
 		<>
-			<div className="bg-purple-400 rounded p-2 w-fit">
+			<div className="rounded w-fit overflow-hidden">
 				<div className="flex flex-col">
 					<div className="flex">
 						<GridItem tile={{ type: "label", text: "" }} />

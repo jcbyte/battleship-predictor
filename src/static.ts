@@ -5,9 +5,9 @@ export const ROW_IDENTIFIERS = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J"
 export const BOARD_SIZE = 10;
 
 export const TILE_COLOURS = {
-	label: "#60278B",
-	lowProbability: "#8B6027",
-	highProbability: "#8B2E27",
+	label: "#7c3aed", // violet-600
+	lowProbability: "f0f9ff", // sky-50
+	highProbability: "082f49", // sky-950
 	maxProbability: "#8b2745",
 	hit: "#528B27",
 	sunk: "#278B2E",
