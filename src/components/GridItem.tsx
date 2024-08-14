@@ -11,7 +11,7 @@ export default function GridItem({ tile }: { tile: Tile }) {
 					tile.type == "label"
 						? TILE_COLOURS["label"]
 						: colourLerp(TILE_COLOURS.lowProbability, TILE_COLOURS.highProbability, tile.probability),
-				border: tile.type == "game" && tile.probability == 1 ? "2px solid #e11d48cc" : "none",
+				border: tile.type == "game" && tile.probability == 1 ? "2px solid #dc2626cc" /* red-600/80 */ : "none",
 			}}
 		>
 			{tile.type == "label" ? (
