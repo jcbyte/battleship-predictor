@@ -6,8 +6,8 @@ export default function Board({ board }: { board: CellData[][] }) {
 	return (
 		<>
 			<div className="rounded w-fit overflow-hidden">
-				<div className="flex flex-col">
-					<div className="flex">
+				<div className="flex flex-col gap-[2px]">
+					<div className="flex gap-[2px]">
 						<GridItem tile={{ type: "label", text: "" }} />
 						{COLUMN_IDENTIFIERS.map((label) => {
 							return <GridItem tile={{ type: "label", text: label }} />;
@@ -16,7 +16,7 @@ export default function Board({ board }: { board: CellData[][] }) {
 
 					{board.map((boardRow, rowNum) => {
 						return (
-							<div className="flex">
+							<div className="flex gap-[2px]">
 								<GridItem tile={{ type: "label", text: ROW_IDENTIFIERS[rowNum] }} />
 								{boardRow.map((cell: CellData) => {
 									return <GridItem tile={{ type: "game", ...cell }} />;
