@@ -17,7 +17,7 @@ export default function GridItem({ tile }: { tile: Tile }) {
 			{tile.type == "label" ? (
 				<div className="flex items-center justify-center h-full text-xl">{tile.text}</div>
 			) : (
-				"Tile"
+				<>{tile.probability.toFixed(2)}</>
 			)}
 		</div>
 	);

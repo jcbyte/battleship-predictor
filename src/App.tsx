@@ -1,5 +1,6 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Board from "./components/Board";
+import { calculateProbabilities } from "./scripts/calculator";
 import { BOARD_SIZE, STARTING_SHIPS2 } from "./static";
 import { CellData, Ship } from "./types";
 
@@ -18,6 +19,10 @@ export default function App() {
 	);
 
 	const [autoUpdateProbabilities, setAutoUpdateProbabilities] = useState<boolean>(true);
+
+	useEffect(() => {
+		setBoard(calculateProbabilities(board, ships));
+	}, []);
 
 	return (
 		<>

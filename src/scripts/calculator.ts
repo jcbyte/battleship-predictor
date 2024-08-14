@@ -2,7 +2,7 @@ import { BOARD_SIZE, HIT_MULTIPLIER } from "../static";
 import { CellData, Ship } from "../types";
 
 // Calculate the "probabilities" of a ship being in this location
-export function calculateProbabilities(board: CellData[][], ships: Ship[]) {
+export function calculateProbabilities(board: CellData[][], ships: Ship[]): CellData[][] {
 	// The value represents 1 for each possible tile in a possible boats position and
 	// a `HIT_MULTIPLIER` for each hit tile in a possible boats position
 	// ...
@@ -69,5 +69,5 @@ export function calculateProbabilities(board: CellData[][], ships: Ship[]) {
 		});
 	});
 
-	return maxValue;
+	return newBoard;
 }
