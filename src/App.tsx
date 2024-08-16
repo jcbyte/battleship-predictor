@@ -1,11 +1,11 @@
 import { useEffect, useRef, useState } from "react";
 import Board from "./components/Board";
 import ShipList from "./components/ShipList";
+import Signature from "./components/Signature";
 import { calculateProbabilities } from "./scripts/calculator";
 import { BOARD_SIZE, STARTING_SHIPS2 } from "./static";
 import { CellData, Ship } from "./types";
 
-// TODO signature
 // TODO grid item controls
 
 // Function to return a fresh blank board
@@ -86,6 +86,8 @@ export default function App() {
 
 				<input type="button" value="Reset" onClick={reset} />
 			</div>
+
+			<Signature />
 		</>
 	);
 }
