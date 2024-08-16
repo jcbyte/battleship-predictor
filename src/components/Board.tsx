@@ -1,7 +1,12 @@
-import { COLUMN_IDENTIFIERS, ROW_IDENTIFIERS } from "../static";
 import { CellData } from "../types";
 import GridItem from "./GridItem";
 
+const COLUMN_IDENTIFIERS = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"];
+const ROW_IDENTIFIERS = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J"];
+
+// TODO use board size instead of identifier length
+
+// Component to display each of the tiles from the passed board, including any column and row labels
 export default function Board({ board }: { board: CellData[][] }) {
 	return (
 		<>
