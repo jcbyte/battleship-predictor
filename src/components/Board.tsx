@@ -1,10 +1,9 @@
+import { BOARD_SIZE } from "../static";
 import { CellData } from "../types";
 import GridItem from "./GridItem";
 
-const COLUMN_IDENTIFIERS = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"];
-const ROW_IDENTIFIERS = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J"];
-
-// TODO use board size instead of identifier length
+const COLUMN_IDENTIFIERS = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16"];
+const ROW_IDENTIFIERS = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P"];
 
 // Component to display each of the tiles from the passed board, including any column and row labels
 export default function Board({ board }: { board: CellData[][] }) {
@@ -14,8 +13,8 @@ export default function Board({ board }: { board: CellData[][] }) {
 				<div className="flex flex-col gap-[2px]">
 					<div className="flex gap-[2px]">
 						<GridItem key="col-0-row-0-blank" tile={{ type: "label", text: "" }} />
-						{COLUMN_IDENTIFIERS.map((label, i) => {
-							return <GridItem key={`col-${i}-label`} tile={{ type: "label", text: label }} />;
+						{[...Array(BOARD_SIZE)].map((_, i) => {
+							return <GridItem key={`col-${i}-label`} tile={{ type: "label", text: COLUMN_IDENTIFIERS[i] }} />;
 						})}
 					</div>
 
