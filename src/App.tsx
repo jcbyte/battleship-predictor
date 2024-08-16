@@ -6,12 +6,11 @@ import { BOARD_SIZE, STARTING_SHIPS2 } from "./static";
 import { CellData, Ship } from "./types";
 
 // TODO readme
-// TODO reset ships
 // TODO manual refresh button
 // TODO grid item controls
 
-// Function to return a newly created a fresh board
-function getEmptyBoard(): CellData[][] {
+// Function to return a fresh blank board
+function getNewBoard(): CellData[][] {
 	return [...Array(BOARD_SIZE)].map((item, x) => {
 		return [...Array(BOARD_SIZE)].map(() => {
 			return { state: "unknown", probability: 0 } as CellData;
@@ -19,14 +18,17 @@ function getEmptyBoard(): CellData[][] {
 	});
 }
 
+// Function to return a fresh list of ships
+function getNewShips(): Ship[] {
+	return STARTING_SHIPS2.map((length) => {
+		return { length: length, sunk: false };
+	});
+}
+
 export default function App() {
 	// These states contain the state of the game
-	const [board, setBoard] = useState<CellData[][]>(getEmptyBoard());
-	const [ships, setShips] = useState<Ship[]>(
-		STARTING_SHIPS2.map((length) => {
-			return { length: length, sunk: false };
-		})
-	);
+	const [board, setBoard] = useState<CellData[][]>(getNewBoard());
+	const [ships, setShips] = useState<Ship[]>(getNewShips());
 
 	// These states contain app settings
 	const [autoUpdateProbabilities, setAutoUpdateProbabilities] = useState<boolean>(true);
@@ -49,8 +51,9 @@ export default function App() {
 		// `autoUpdateProbabilities` is in this list so that when enabled it will refresh the board
 	}, [board, ships, autoUpdateProbabilities]);
 
-	function resetBoard() {
-		setBoard(getEmptyBoard());
+	function reset() {
+		setBoard(getNewBoard());
+		setShips(getNewShips());
 	}
 
 	return (
@@ -73,7 +76,7 @@ export default function App() {
 					<span>Automatically Refresh</span>
 				</label>
 
-				<input type="button" value="Reset board" onClick={resetBoard} />
+				<input type="button" value="Reset" onClick={reset} />
 			</div>
 		</>
 	);
