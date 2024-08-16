@@ -1,21 +1,24 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Board from "./components/Board";
 import ShipList from "./components/ShipList";
 import { calculateProbabilities } from "./scripts/calculator";
 import { BOARD_SIZE, STARTING_SHIPS2 } from "./static";
 import { CellData, Ship } from "./types";
 
-// TODO documentation including readme
+// TODO readme
+// TODO manual refresh button
 // TODO grid item controls
 
+function getEmptyBoard(): CellData[][] {
+	return [...Array(BOARD_SIZE)].map((item, x) => {
+		return [...Array(BOARD_SIZE)].map(() => {
+			return { state: "unknown", probability: 0 } as CellData;
+		});
+	});
+}
+
 export default function App() {
-	const [board, setBoard] = useState<CellData[][]>(
-		[...Array(BOARD_SIZE)].map((item, x) => {
-			return [...Array(BOARD_SIZE)].map(() => {
-				return { state: "unknown", probability: 0 } as CellData;
-			});
-		})
-	);
+	const [board, setBoard] = useState<CellData[][]>(getEmptyBoard());
 	const [ships, setShips] = useState<Ship[]>(
 		STARTING_SHIPS2.map((length) => {
 			return { length: length, sunk: false };
@@ -38,7 +41,7 @@ export default function App() {
 	}, [board, ships]);
 
 	function resetBoard() {
-		console.log("reset");
+		setBoard(getEmptyBoard());
 	}
 
 	return (
@@ -66,9 +69,6 @@ export default function App() {
 		</>
 	);
 }
-
-// export default function Home() {
-// 	const [maxProbability, setMaxProbability] = useState<number>(0);
 
 // 	function updateTileState(x: number, y: number, state: CellData["state"]) {
 // 		var newBoard = [...board];
