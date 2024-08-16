@@ -1,5 +1,6 @@
 import { Ship } from "../types";
 
+// Component to display and control which ships have been sunk
 export default function ShipList({
 	ships,
 	setShips,
