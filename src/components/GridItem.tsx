@@ -30,6 +30,22 @@ function getTileColour(tile: Tile): string {
 	}
 }
 
+// TODO control buttons
+
+// unknown
+// - miss `IconRipple`
+// - hit `IconFocus` / `IconFocus2`
+
+// miss
+// - undo `IconArrowBackUp`
+
+// hit
+// - sunk `IconCaretDownFilled` / `IconArrowDown`
+// - undo `IconArrowBackUp`
+
+// sunk
+// - undo `IconArrowBackUp`
+
 // Component to display a board tile
 export default function GridItem({ tile }: { tile: Tile }) {
 	return (
@@ -49,75 +65,11 @@ export default function GridItem({ tile }: { tile: Tile }) {
 	);
 }
 
-// import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
-// import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
-// import DirectionsBoatIcon from "@mui/icons-material/DirectionsBoat";
-// import UndoIcon from "@mui/icons-material/Undo";
-// import WavesIcon from "@mui/icons-material/Waves";
+// ! FROM app.tsx
+// 	function updateTileState(x: number, y: number, state: CellData["state"]) {
+// 		var newBoard = [...board];
+// 		newBoard[x][y].state = state;
 
-// 	} else if (tile.type == "game") {
-// 		var text = { unknown: "Unknown", hit: "Hit", sunk: "Sunk", miss: "Miss" }[thisTile.data.state];
-// 		boxContent = (
-// 			<>
-// 				<Box sx={{ display: "flex", flexDirection: "column", height: "90px" }}>
-// 					<Box sx={{ flexGrow: 1, display: "flex", justifyContent: "center", alignItems: "center" }}>
-// 						<Typography>{text}</Typography>
-// 					</Box>
-// 					<Box sx={{ display: "flex", justifyContent: "center" }}>
-// 						{thisTile.data.state == "unknown" ? (
-// 							<>
-// 								<IconButton
-// 									size="small"
-// 									onClick={() => {
-// 										updateTileState(thisTile.data.x, thisTile.data.y, "hit");
-// 									}}
-// 								>
-// 									<DirectionsBoatIcon />
-// 								</IconButton>
-// 								<IconButton
-// 									size="small"
-// 									onClick={() => {
-// 										updateTileState(thisTile.data.x, thisTile.data.y, "miss");
-// 									}}
-// 								>
-// 									<WavesIcon />
-// 								</IconButton>
-// 							</>
-// 						) : (
-// 							<>
-// 								{thisTile.data.state == "miss" ? (
-// 									<></>
-// 								) : thisTile.data.state == "hit" ? (
-// 									<IconButton
-// 										size="small"
-// 										onClick={() => {
-// 											updateTileState(thisTile.data.x, thisTile.data.y, "sunk");
-// 										}}
-// 									>
-// 										<ArrowDownwardIcon />
-// 									</IconButton>
-// 								) : (
-// 									<IconButton
-// 										size="small"
-// 										onClick={() => {
-// 											updateTileState(thisTile.data.x, thisTile.data.y, "hit");
-// 										}}
-// 									>
-// 										<ArrowUpwardIcon />
-// 									</IconButton>
-// 								)}
-// 								<IconButton
-// 									size="small"
-// 									onClick={() => {
-// 										updateTileState(thisTile.data.x, thisTile.data.y, "unknown");
-// 									}}
-// 								>
-// 									<UndoIcon />
-// 								</IconButton>
-// 							</>
-// 						)}
-// 					</Box>
-// 				</Box>
-// 			</>
-// 		);
+// 		if (autoUpdateProbabilities) calculateProbabilities(newBoard);
+// 		else setBoard(newBoard);
 // 	}

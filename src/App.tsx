@@ -6,8 +6,6 @@ import { calculateProbabilities } from "./scripts/calculator";
 import { BOARD_SIZE, STARTING_SHIPS2 } from "./static";
 import { CellData, Ship } from "./types";
 
-// TODO grid item controls
-
 // Function to return a fresh blank board
 function getNewBoard(): CellData[][] {
 	return [...Array(BOARD_SIZE)].map((item, x) => {
@@ -91,11 +89,3 @@ export default function App() {
 		</>
 	);
 }
-
-// 	function updateTileState(x: number, y: number, state: CellData["state"]) {
-// 		var newBoard = [...board];
-// 		newBoard[x][y].state = state;
-
-// 		if (autoUpdateProbabilities) calculateProbabilities(newBoard);
-// 		else setBoard(newBoard);
-// 	}
