@@ -1,4 +1,4 @@
-import { colourLerpHex } from "../scripts/utils";
+import { colourLerpHex } from "../scripts/colorUtils";
 import { Tile } from "../types";
 
 const COLOURS = {
