@@ -7,8 +7,11 @@ main {
 }
 
 input[type="checkbox"] {
-	@apply relative;
-	@apply appearance-none size-4 border border-gray-600 rounded checked:bg-blue-600 hover:ring-1 hover:ring-blue-600 cursor-pointer;
+	@apply appearance-none relative;
+	@apply size-4 border border-gray-600 rounded cursor-pointer;
+	@apply hover:ring-1 hover:ring-blue-600;
+	@apply checked:bg-blue-600;
+	@apply transition-colors duration-100;
 }
 
 input[type="checkbox"]:checked::before {
@@ -18,4 +21,12 @@ input[type="checkbox"]:checked::before {
 
 input[type="checkbox"]:checked::before.checkbox-cross {
 	@apply !content-['✘'];
+}
+
+input[type="button"] {
+	@apply appearance-none;
+	@apply border p-1 border-gray-600 rounded cursor-pointer;
+	@apply hover:ring-1 hover:ring-blue-600;
+	@apply active:bg-blue-600;
+	@apply transition-colors duration-100;
 }

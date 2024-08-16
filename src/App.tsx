@@ -5,10 +5,8 @@ import { calculateProbabilities } from "./scripts/calculator";
 import { BOARD_SIZE, STARTING_SHIPS2 } from "./static";
 import { CellData, Ship } from "./types";
 
-// TODO reset
-
-// TODO grid item controls
 // TODO documentation including readme
+// TODO grid item controls
 
 export default function App() {
 	const [board, setBoard] = useState<CellData[][]>(
@@ -30,11 +28,17 @@ export default function App() {
 		setBoard(calculateProbabilities(board, ships));
 	}, []);
 
+	function resetBoard() {
+		console.log("reset");
+	}
+
 	return (
 		<>
 			<div className="flex flex-col gap-4 items-center p-4">
 				<div className="text-4xl font-semibold">Battleship Predictor</div>
+
 				<Board board={board} />
+
 				<ShipList ships={ships} setShips={setShips} />
 
 				<label className="flex gap-1 items-center">
@@ -47,6 +51,8 @@ export default function App() {
 					/>
 					<span>Automatically Refresh</span>
 				</label>
+
+				<input type="button" value="Reset board" onClick={resetBoard} />
 			</div>
 		</>
 	);
