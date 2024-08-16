@@ -6,9 +6,11 @@ import { BOARD_SIZE, STARTING_SHIPS2 } from "./static";
 import { CellData, Ship } from "./types";
 
 // TODO readme
+// TODO reset ships
 // TODO manual refresh button
 // TODO grid item controls
 
+// Function to return a newly created a fresh board
 function getEmptyBoard(): CellData[][] {
 	return [...Array(BOARD_SIZE)].map((item, x) => {
 		return [...Array(BOARD_SIZE)].map(() => {
@@ -18,6 +20,7 @@ function getEmptyBoard(): CellData[][] {
 }
 
 export default function App() {
+	// These states contain the state of the game
 	const [board, setBoard] = useState<CellData[][]>(getEmptyBoard());
 	const [ships, setShips] = useState<Ship[]>(
 		STARTING_SHIPS2.map((length) => {
@@ -25,12 +28,17 @@ export default function App() {
 		})
 	);
 
+	// These states contain app settings
 	const [autoUpdateProbabilities, setAutoUpdateProbabilities] = useState<boolean>(true);
 
+	// ref is used to stop infinite update loops when board is updated via useEffect
 	const boardUpdating = useRef<boolean>(false);
 
+	// When the state of a tile or ship changes the board should be recalculated
 	useEffect(() => {
+		// If we should refresh the board automatically
 		if (autoUpdateProbabilities) {
+			// If this call is fresh (not from just updating) then we want to update i
 			if (!boardUpdating.current) {
 				boardUpdating.current = true;
 				setBoard(calculateProbabilities(board, ships));
@@ -38,7 +46,8 @@ export default function App() {
 				boardUpdating.current = false;
 			}
 		}
-	}, [board, ships]);
+		// `autoUpdateProbabilities` is in this list so that when enabled it will refresh the board
+	}, [board, ships, autoUpdateProbabilities]);
 
 	function resetBoard() {
 		setBoard(getEmptyBoard());
