@@ -5,3 +5,13 @@
 main {
 	@apply min-h-screen bg-gray-900 text-gray-100;
 }
+
+input[type="checkbox"] {
+	@apply relative;
+	@apply appearance-none size-4 border border-gray-600 rounded checked:bg-blue-600 hover:ring-1 hover:ring-blue-600 cursor-pointer;
+}
+
+input[type="checkbox"]:checked:before {
+	@apply absolute;
+	@apply content-['✘'] text-sm left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2;
+}
