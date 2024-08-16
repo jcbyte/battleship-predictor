@@ -1,4 +1,4 @@
-import { colourLerp } from "../scripts/utils";
+import { colourLerpHex } from "../scripts/utils";
 import { Tile } from "../types";
 
 const COLOURS = {
@@ -20,7 +20,7 @@ function getTileColour(tile: Tile): string {
 	switch (tile.state) {
 		case "unknown":
 			// If it is unknown then create a gradient between low and high probability
-			return colourLerp(COLOURS.lowProbabilityTile, COLOURS.highProbabilityTile, tile.probability);
+			return colourLerpHex(COLOURS.lowProbabilityTile, COLOURS.highProbabilityTile, tile.probability);
 		case "hit":
 			return COLOURS.hitTile;
 		case "miss":

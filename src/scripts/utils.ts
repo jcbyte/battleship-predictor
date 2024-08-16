@@ -1,5 +1,18 @@
-function hexToRgb(hex: string): { r: number; g: number; b: number } {
-	var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex) as RegExpExecArray;
+interface rgbCol {
+	r: number;
+	g: number;
+	b: number;
+}
+
+// Linearly interpolate between two numbers
+function lerp(a: number, b: number, t: number): number {
+	return a + (b - a) * t;
+}
+
+// Convert hex colour to rgb colour
+function hexToRgb(hex: string): rgbCol {
+	// Use a regex to extract the rgb values
+	let result: RegExpExecArray = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex) as RegExpExecArray;
 	return {
 		r: parseInt(result[1], 16),
 		g: parseInt(result[2], 16),
@@ -7,22 +20,24 @@ function hexToRgb(hex: string): { r: number; g: number; b: number } {
 	};
 }
 
-function rgbToHex({ r, g, b }: { r: number; g: number; b: number }): string {
+// Convert rgb colour to hex colour
+function rgbToHex({ r, g, b }: rgbCol): string {
 	function componentToHex(c: number): string {
-		var hex = c.toString(16);
-		return hex.length == 1 ? "0" + hex : hex;
+		let hex: string = c.toString(16);
+		return hex.padStart(2, "0");
 	}
 
-	return "#" + componentToHex(r) + componentToHex(g) + componentToHex(b);
+	return `#${componentToHex(r)}${componentToHex(g)}${componentToHex(b)}`;
 }
 
-export function colourLerp(a: string, b: string, t: number): string {
-	var aRgb = hexToRgb(a);
-	var bRgb = hexToRgb(b);
-	var newRgb = {
-		r: Math.round(aRgb.r + (bRgb.r - aRgb.r) * t),
-		g: Math.round(aRgb.g + (bRgb.g - aRgb.g) * t),
-		b: Math.round(aRgb.b + (bRgb.b - aRgb.b) * t),
+// Linearly interpolate between two hex colours
+export function colourLerpHex(a: string, b: string, t: number): string {
+	let aRgb: rgbCol = hexToRgb(a);
+	let bRgb: rgbCol = hexToRgb(b);
+	let newRgb: rgbCol = {
+		r: Math.round(lerp(aRgb.r, bRgb.r, t)),
+		g: Math.round(lerp(aRgb.g, bRgb.g, t)),
+		b: Math.round(lerp(aRgb.b, bRgb.b, t)),
 	};
 
 	return rgbToHex(newRgb);
