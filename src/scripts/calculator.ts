@@ -36,7 +36,7 @@ export function calculateProbabilities(board: CellData[][], ships: Ship[]): Cell
 					.forEach((ship) => {
 						// Add all possible connecting tile
 						let possibleCells: CellData[] = [];
-						for (let i = -ship.length; i < ship.length; i++) {
+						for (let i = -ship.length; i <= ship.length; i++) {
 							// Do not include itself
 							if (i == 0) continue;
 
