@@ -5,7 +5,6 @@ import { calculateProbabilities } from "./scripts/calculator";
 import { BOARD_SIZE, STARTING_SHIPS2 } from "./static";
 import { CellData, Ship } from "./types";
 
-// TODO readme
 // TODO manual refresh button
 // TODO grid item controls
 
