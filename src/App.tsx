@@ -5,8 +5,6 @@ import { calculateProbabilities } from "./scripts/calculator";
 import { BOARD_SIZE, STARTING_SHIPS2 } from "./static";
 import { CellData, Ship } from "./types";
 
-// TODO ships section
-// TODO auto update setting
 // TODO reset
 
 // TODO grid item controls
@@ -16,7 +14,7 @@ export default function App() {
 	const [board, setBoard] = useState<CellData[][]>(
 		[...Array(BOARD_SIZE)].map((item, x) => {
 			return [...Array(BOARD_SIZE)].map(() => {
-				return { state: "unknown", probability: x / 9 } as CellData;
+				return { state: "unknown", probability: 0 } as CellData;
 			});
 		})
 	);
@@ -38,6 +36,17 @@ export default function App() {
 				<div className="text-4xl font-semibold">Battleship Predictor</div>
 				<Board board={board} />
 				<ShipList ships={ships} setShips={setShips} />
+
+				<label className="flex gap-1 items-center">
+					<input
+						type="checkbox"
+						checked={autoUpdateProbabilities}
+						onChange={(e) => {
+							setAutoUpdateProbabilities(e.target.checked);
+						}}
+					/>
+					<span>Automatically Refresh</span>
+				</label>
 			</div>
 		</>
 	);
