@@ -8,17 +8,16 @@ export default function ShipList({
 	setShips: React.Dispatch<React.SetStateAction<Ship[]>>;
 }) {
 	return (
-		<div className="border-2 border-gray-700 rounded p-2">
-			<span>Remaining Ships:</span>
-			<div className="flex gap-12">
+		<div className="border-2 border-gray-700 p-2 rounded flex flex-col gap-2 items-center">
+			<div className="font-semibold">Remaining Ships:</div>
+			<div className="flex gap-4">
 				{ships.map((ship, i) => {
 					return (
 						<div key={i}>
-							<label>
+							<label className="flex gap-1 items-center">
 								<input
 									type="checkbox"
 									checked={ship.sunk}
-									style={{ textDecoration: ship.sunk ? "line-through" : "none" }}
 									onChange={(e) => {
 										setShips((prevShips) => {
 											let newShips: Ship[] = [...prevShips];
@@ -27,7 +26,7 @@ export default function ShipList({
 										});
 									}}
 								/>
-								<span>{ship.length} Ship</span>
+								<span style={{ textDecoration: ship.sunk ? "line-through" : "none" }}>{ship.length} Ship</span>
 							</label>
 						</div>
 					);
