@@ -5,7 +5,7 @@ import { calculateProbabilities } from "./scripts/calculator";
 import { BOARD_SIZE, STARTING_SHIPS2 } from "./static";
 import { CellData, Ship } from "./types";
 
-// TODO manual refresh button
+// TODO signature
 // TODO grid item controls
 
 // Function to return a fresh blank board
@@ -32,6 +32,11 @@ export default function App() {
 	// These states contain app settings
 	const [autoUpdateProbabilities, setAutoUpdateProbabilities] = useState<boolean>(true);
 
+	// Calculate new probabilities and set this to the board
+	function refreshBoard() {
+		setBoard(calculateProbabilities(board, ships));
+	}
+
 	// ref is used to stop infinite update loops when board is updated via useEffect
 	const boardUpdating = useRef<boolean>(false);
 
@@ -42,7 +47,7 @@ export default function App() {
 			// If this call is fresh (not from just updating) then we want to update i
 			if (!boardUpdating.current) {
 				boardUpdating.current = true;
-				setBoard(calculateProbabilities(board, ships));
+				refreshBoard();
 			} else {
 				boardUpdating.current = false;
 			}
@@ -65,16 +70,19 @@ export default function App() {
 
 				<ShipList ships={ships} setShips={setShips} />
 
-				<label className="flex gap-1 items-center">
-					<input
-						type="checkbox"
-						checked={autoUpdateProbabilities}
-						onChange={(e) => {
-							setAutoUpdateProbabilities(e.target.checked);
-						}}
-					/>
-					<span>Automatically Refresh</span>
-				</label>
+				<div className="flex gap-2">
+					<label className="flex gap-1 items-center">
+						<input
+							type="checkbox"
+							checked={autoUpdateProbabilities}
+							onChange={(e) => {
+								setAutoUpdateProbabilities(e.target.checked);
+							}}
+						/>
+						<span>Automatically Refresh</span>
+					</label>
+					<input type="button" value="Refresh" onClick={refreshBoard} disabled={autoUpdateProbabilities} />
+				</div>
 
 				<input type="button" value="Reset" onClick={reset} />
 			</div>
