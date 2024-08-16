@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import Board from "./components/Board";
+import ShipList from "./components/ShipList";
 import { calculateProbabilities } from "./scripts/calculator";
 import { BOARD_SIZE, STARTING_SHIPS2 } from "./static";
 import { CellData, Ship } from "./types";
@@ -36,6 +37,7 @@ export default function App() {
 			<div className="flex flex-col gap-4 items-center p-4">
 				<div className="text-4xl font-semibold">Battleship Predictor</div>
 				<Board board={board} />
+				<ShipList ships={ships} setShips={setShips} />
 			</div>
 		</>
 	);
