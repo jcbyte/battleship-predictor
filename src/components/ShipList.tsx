@@ -17,6 +17,7 @@ export default function ShipList({
 							<label className="flex gap-1 items-center">
 								<input
 									type="checkbox"
+									className="checkbox-cross"
 									checked={ship.sunk}
 									onChange={(e) => {
 										setShips((prevShips) => {

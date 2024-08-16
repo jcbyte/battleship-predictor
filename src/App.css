@@ -11,7 +11,11 @@ input[type="checkbox"] {
 	@apply appearance-none size-4 border border-gray-600 rounded checked:bg-blue-600 hover:ring-1 hover:ring-blue-600 cursor-pointer;
 }
 
-input[type="checkbox"]:checked:before {
+input[type="checkbox"]:checked::before {
 	@apply absolute;
-	@apply content-['✘'] text-sm left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2;
+	@apply content-['✔'] text-sm left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2;
+}
+
+input[type="checkbox"]:checked::before.checkbox-cross {
+	@apply !content-['✘'];
 }
