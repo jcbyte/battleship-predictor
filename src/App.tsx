@@ -24,9 +24,18 @@ export default function App() {
 
 	const [autoUpdateProbabilities, setAutoUpdateProbabilities] = useState<boolean>(true);
 
+	const boardUpdating = useRef<boolean>(false);
+
 	useEffect(() => {
-		setBoard(calculateProbabilities(board, ships));
-	}, []);
+		if (autoUpdateProbabilities) {
+			if (!boardUpdating.current) {
+				boardUpdating.current = true;
+				setBoard(calculateProbabilities(board, ships));
+			} else {
+				boardUpdating.current = false;
+			}
+		}
+	}, [board, ships]);
 
 	function resetBoard() {
 		console.log("reset");
