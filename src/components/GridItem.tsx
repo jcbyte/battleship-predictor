@@ -90,16 +90,18 @@ function BoardGridItem({ gameTile }: { gameTile: GameTile }) {
 			}}
 		>
 			<div className="text-md">{tileData.title}</div>
-			<div className="flex">
+			<div className="flex gap-1">
 				{tileData.buttons.map((buttonData) => {
+					// TODO give these icon buttons labels
 					return (
-						<>
-							<buttonData.icon
-								onClick={() => {
-									console.log("ujhs");
-								}}
-							/>
-						</>
+						<div
+							className="iconButton"
+							onClick={() => {
+								console.log("ujhs");
+							}}
+						>
+							<buttonData.icon />
+						</div>
 					);
 				})}
 			</div>

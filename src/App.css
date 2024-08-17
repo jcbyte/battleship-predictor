@@ -2,6 +2,8 @@
 @tailwind components;
 @tailwind utilities;
 
+/* TODO move my css styles into induvidual react components */
+
 main {
 	@apply min-h-screen bg-gray-900 text-gray-100;
 }
@@ -34,4 +36,11 @@ input[type="button"] {
 input[type="button"]:disabled {
 	@apply bg-gray-800 text-gray-400 cursor-auto;
 	@apply hover:ring-0;
+}
+
+.iconButton {
+	@apply p-1 bg-gray-900/20 rounded-xl cursor-pointer;
+	@apply hover:bg-gray-900/40;
+	@apply active:bg-gray-900/80;
+	@apply transition-colors duration-100;
 }
