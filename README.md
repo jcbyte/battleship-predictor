@@ -4,7 +4,7 @@ A simple web app for showing the best strategy to win battleships.
 
 ## Production Build
 
-// TODO
+https://battleship-predictor.vercel.app/
 
 ## Run Locally
 
