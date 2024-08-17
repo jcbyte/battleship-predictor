@@ -1,9 +1,13 @@
+export type CellState = "unknown" | "hit" | "miss" | "sunk";
+
 export interface CellData {
-	state: "unknown" | "hit" | "miss" | "sunk";
+	state: CellState;
 	probability: number;
 }
 
-export type Tile = { type: "game" | "label" } & (({ type: "game" } & CellData) | { type: "label"; text: string });
+export type GameTile = { type: "game" } & CellData;
+export type LabelTile = { type: "label"; text: string };
+export type Tile = GameTile | LabelTile;
 
 export interface Ship {
 	sunk: boolean;

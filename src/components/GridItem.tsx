@@ -1,8 +1,6 @@
-import { colourLerpHex } from "../scripts/colorUtils";
-import { Tile } from "../types";
+import { CellState, GameTile, Tile } from "../types";
 
 const COLOURS = {
-	labelTile: "#374151", // gray-700
 	lowProbabilityTile: "#bfdbfe", // blue-200
 	highProbabilityTile: "#1e3a8a", // blue-900
 	hitTile: "#dc2626", // red-600
@@ -11,65 +9,70 @@ const COLOURS = {
 	maxProbabilityBorder: "#dc2626cc" /* red-600/80 */,
 };
 
-// Get the background colour of the tile depending on its type and state
-function getTileColour(tile: Tile): string {
-	if (tile.type == "label") {
-		return COLOURS.labelTile;
-	}
-
-	switch (tile.state) {
-		case "unknown":
-			// If it is unknown then create a gradient between low and high probability
-			return colourLerpHex(COLOURS.lowProbabilityTile, COLOURS.highProbabilityTile, tile.probability);
-		case "hit":
-			return COLOURS.hitTile;
-		case "miss":
-			return COLOURS.missTile;
-		case "sunk":
-			return COLOURS.sunkTile;
-	}
+interface TileData {
+	background: string;
+	border?: string;
+	title: string;
+	buttons: { icon: any; convertState: CellState }[];
 }
 
-// TODO control buttons
+// Get the data for a game tile depending on its state
+function getGameTileData(tile: GameTile): TileData {
+	// unknown
+	// - miss `IconRipple`
+	// - hit `IconFocus` / `IconFocus2`
 
-// unknown
-// - miss `IconRipple`
-// - hit `IconFocus` / `IconFocus2`
+	// miss
+	// - undo `IconArrowBackUp`
 
-// miss
-// - undo `IconArrowBackUp`
+	// hit
+	// - sunk `IconCaretDownFilled` / `IconArrowDown`
+	// - undo `IconArrowBackUp`
 
-// hit
-// - sunk `IconCaretDownFilled` / `IconArrowDown`
-// - undo `IconArrowBackUp`
+	// sunk
+	// - undo `IconArrowBackUp`
 
-// sunk
-// - undo `IconArrowBackUp`
+	// switch (tile.state) {
+	// 	case "unknown":
+	// 		// If it is unknown then create a gradient between low and high probability
+	// 		return colourLerpHex(COLOURS.lowProbabilityTile, COLOURS.highProbabilityTile, tile.probability);
+	// 	case "hit":
+	// 		return COLOURS.hitTile;
+	// 	case "miss":
+	// 		return COLOURS.missTile;
+	// 	case "sunk":
+	// 		return COLOURS.sunkTile;
+	// }
 
-// Component to display a board tile
-export default function GridItem({ tile }: { tile: Tile }) {
+	return { background: "#000000", title: "hi", buttons: [] };
+}
+
+// Component to display the inner of a tile which is type game
+function BoardGridItem({ gameTile }: { gameTile: GameTile }) {
+	let tileData: TileData = getGameTileData(gameTile);
+
 	return (
 		<div
-			className="size-16 rounded"
+			className="h-full"
 			style={{
-				backgroundColor: getTileColour(tile),
-				border: tile.type == "game" && tile.probability == 1 ? `2px solid ${COLOURS.maxProbabilityBorder}` : "none",
+				backgroundColor: tileData.background,
+				border: tileData.border ?? "none",
 			}}
 		>
-			{tile.type == "label" ? (
-				<div className="flex items-center justify-center h-full text-xl">{tile.text}</div>
-			) : (
-				<>{tile.probability.toFixed(2)}</>
-			)}
+			{tileData.title}
 		</div>
 	);
 }
 
-// ! FROM app.tsx
-// 	function updateTileState(x: number, y: number, state: CellData["state"]) {
-// 		var newBoard = [...board];
-// 		newBoard[x][y].state = state;
-
-// 		if (autoUpdateProbabilities) calculateProbabilities(newBoard);
-// 		else setBoard(newBoard);
-// 	}
+// Component to display a board tile
+export default function GridItem({ tile }: { tile: Tile }) {
+	return (
+		<div className="size-16 rounded overflow-hidden">
+			{tile.type == "label" ? (
+				<div className="bg-gray-700 flex items-center justify-center h-full text-xl">{tile.text}</div>
+			) : (
+				<BoardGridItem gameTile={tile} />
+			)}
+		</div>
+	);
+}
