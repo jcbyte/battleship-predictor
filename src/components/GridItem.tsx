@@ -79,10 +79,11 @@ function BoardGridItem({ gameTile, setTileState }: { gameTile: GameTile; setTile
 		>
 			<div className="text-md">{tileData.title}</div>
 			<div className="flex gap-1">
-				{tileData.buttons.map((buttonData) => {
+				{tileData.buttons.map((buttonData, i) => {
 					// TODO give these icon buttons labels
 					return (
 						<div
+							key={i}
 							className="iconButton"
 							onClick={() => {
 								setTileState(buttonData.convertState);
