@@ -1,4 +1,7 @@
+import { colourLerpHex } from "../scripts/colorUtils";
 import { CellState, GameTile, Tile } from "../types";
+
+import { IconArrowBackUp, IconCaretDownFilled, IconFocus, IconRipple } from "@tabler/icons-react";
 
 const COLOURS = {
 	lowProbabilityTile: "#bfdbfe", // blue-200
@@ -18,6 +21,8 @@ interface TileData {
 
 // Get the data for a game tile depending on its state
 function getGameTileData(tile: GameTile): TileData {
+	let tileData: TileData = { background: "#000000", title: "Error", buttons: [] };
+
 	// unknown
 	// - miss `IconRipple`
 	// - hit `IconFocus` / `IconFocus2`
@@ -32,19 +37,44 @@ function getGameTileData(tile: GameTile): TileData {
 	// sunk
 	// - undo `IconArrowBackUp`
 
-	// switch (tile.state) {
-	// 	case "unknown":
-	// 		// If it is unknown then create a gradient between low and high probability
-	// 		return colourLerpHex(COLOURS.lowProbabilityTile, COLOURS.highProbabilityTile, tile.probability);
-	// 	case "hit":
-	// 		return COLOURS.hitTile;
-	// 	case "miss":
-	// 		return COLOURS.missTile;
-	// 	case "sunk":
-	// 		return COLOURS.sunkTile;
-	// }
+	// ? Could this be a map instead of function with switch case?
 
-	return { background: "#000000", title: "hi", buttons: [] };
+	switch (tile.state) {
+		case "unknown":
+			tileData.title = "Unknown";
+			// If it is unknown then create a gradient between low and high probability
+			tileData.background = colourLerpHex(COLOURS.lowProbabilityTile, COLOURS.highProbabilityTile, tile.probability);
+			if (tile.probability == 1) tileData.border = `2px solid ${COLOURS.maxProbabilityBorder}`;
+			tileData.buttons = [
+				{ icon: IconRipple, convertState: "miss" },
+				{ icon: IconFocus, convertState: "hit" },
+			];
+			break;
+
+		case "miss":
+			tileData.title = "Miss";
+			tileData.background = COLOURS.missTile;
+			tileData.buttons = [{ icon: IconArrowBackUp, convertState: "unknown" }];
+			break;
+
+		case "hit":
+			tileData.title = "Hit";
+			tileData.background = COLOURS.hitTile;
+			tileData.buttons = [
+				{ icon: IconCaretDownFilled, convertState: "sunk" },
+				{ icon: IconArrowBackUp, convertState: "unknown" },
+			];
+			break;
+
+		case "sunk":
+			tileData.title = "Sunk";
+			tileData.background = COLOURS.sunkTile;
+			tileData.buttons = [{ icon: IconArrowBackUp, convertState: "miss" }];
+
+			break;
+	}
+
+	return tileData;
 }
 
 // Component to display the inner of a tile which is type game
@@ -53,13 +83,26 @@ function BoardGridItem({ gameTile }: { gameTile: GameTile }) {
 
 	return (
 		<div
-			className="h-full"
+			className="h-full flex flex-col items-center justify-center gap-2"
 			style={{
 				backgroundColor: tileData.background,
 				border: tileData.border ?? "none",
 			}}
 		>
-			{tileData.title}
+			<div className="text-md">{tileData.title}</div>
+			<div className="flex">
+				{tileData.buttons.map((buttonData) => {
+					return (
+						<>
+							<buttonData.icon
+								onClick={() => {
+									console.log("ujhs");
+								}}
+							/>
+						</>
+					);
+				})}
+			</div>
 		</div>
 	);
 }
@@ -67,7 +110,7 @@ function BoardGridItem({ gameTile }: { gameTile: GameTile }) {
 // Component to display a board tile
 export default function GridItem({ tile }: { tile: Tile }) {
 	return (
-		<div className="size-16 rounded overflow-hidden">
+		<div className="size-20 rounded overflow-hidden">
 			{tile.type == "label" ? (
 				<div className="bg-gray-700 flex items-center justify-center h-full text-xl">{tile.text}</div>
 			) : (
