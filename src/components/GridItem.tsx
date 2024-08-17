@@ -69,7 +69,7 @@ function getGameTileData(tile: GameTile): TileData {
 		case "sunk":
 			tileData.title = "Sunk";
 			tileData.background = COLOURS.sunkTile;
-			tileData.buttons = [{ icon: IconArrowBackUp, convertState: "miss" }];
+			tileData.buttons = [{ icon: IconArrowBackUp, convertState: "hit" }];
 
 			break;
 	}
@@ -78,7 +78,7 @@ function getGameTileData(tile: GameTile): TileData {
 }
 
 // Component to display the inner of a tile which is type game
-function BoardGridItem({ gameTile }: { gameTile: GameTile }) {
+function BoardGridItem({ gameTile, setTileState }: { gameTile: GameTile; setTileState: (state: CellState) => void }) {
 	let tileData: TileData = getGameTileData(gameTile);
 
 	return (
@@ -97,7 +97,7 @@ function BoardGridItem({ gameTile }: { gameTile: GameTile }) {
 						<div
 							className="iconButton"
 							onClick={() => {
-								console.log("ujhs");
+								setTileState(buttonData.convertState);
 							}}
 						>
 							<buttonData.icon />
@@ -110,13 +110,19 @@ function BoardGridItem({ gameTile }: { gameTile: GameTile }) {
 }
 
 // Component to display a board tile
-export default function GridItem({ tile }: { tile: Tile }) {
+export default function GridItem({
+	tile,
+	setTileState = () => {},
+}: {
+	tile: Tile;
+	setTileState?: (state: CellState) => void;
+}) {
 	return (
 		<div className="size-20 rounded overflow-hidden">
 			{tile.type == "label" ? (
 				<div className="bg-gray-700 flex items-center justify-center h-full text-xl">{tile.text}</div>
 			) : (
-				<BoardGridItem gameTile={tile} />
+				<BoardGridItem gameTile={tile} setTileState={setTileState} />
 			)}
 		</div>
 	);

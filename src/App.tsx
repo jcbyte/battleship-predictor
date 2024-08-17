@@ -64,7 +64,7 @@ export default function App() {
 			<div className="flex flex-col gap-4 items-center p-4">
 				<div className="text-4xl font-semibold">Battleship Predictor</div>
 
-				<Board board={board} />
+				<Board board={board} setBoard={setBoard} />
 
 				<ShipList ships={ships} setShips={setShips} />
 
