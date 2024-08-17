@@ -1,6 +1,8 @@
 import { BOARD_SIZE, HIT_MULTIPLIER } from "../static";
 import { CellData, Ship } from "../types";
 
+// TODO this entire design should be re-thought as it has many flaws
+
 // Calculate the "probabilities" of a ship being in this location
 export function calculateProbabilities(board: CellData[][], ships: Ship[]): CellData[][] {
 	// The value represents 1 for each possible tile in a possible boats position and

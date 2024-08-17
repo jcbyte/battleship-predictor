@@ -13,10 +13,12 @@ export default function Board({
 	board: CellData[][];
 	setBoard: React.Dispatch<React.SetStateAction<CellData[][]>>;
 }) {
-	function setTileState(state: CellState, x: number, y: number): void {
+	// Function to change the state of a tile given its row and col
+	function setTileState(state: CellState, row: number, col: number): void {
 		setBoard((prev) => {
+			// This only creates a shallow copy, does this cause issues?
 			let newBoard: CellData[][] = [...prev];
-			newBoard[x][y].state = state;
+			newBoard[row][col].state = state;
 			return newBoard;
 		});
 	}

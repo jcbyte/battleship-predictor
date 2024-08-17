@@ -1,8 +1,9 @@
 import { colourLerpHex } from "../scripts/colorUtils";
 import { CellState, GameTile, Tile } from "../types";
 
-import { IconArrowBackUp, IconCaretDownFilled, IconFocus, IconRipple } from "@tabler/icons-react";
+import { IconArrowBackUp, IconCaretDownFilled, IconFocus2, IconRipple } from "@tabler/icons-react";
 
+// ? Is this required if it is in the map as suggested below
 const COLOURS = {
 	lowProbabilityTile: "#bfdbfe", // blue-200
 	highProbabilityTile: "#1e3a8a", // blue-900
@@ -23,21 +24,8 @@ interface TileData {
 function getGameTileData(tile: GameTile): TileData {
 	let tileData: TileData = { background: "#000000", title: "Error", buttons: [] };
 
-	// unknown
-	// - miss `IconRipple`
-	// - hit `IconFocus` / `IconFocus2`
-
-	// miss
-	// - undo `IconArrowBackUp`
-
-	// hit
-	// - sunk `IconCaretDownFilled` / `IconArrowDown`
-	// - undo `IconArrowBackUp`
-
-	// sunk
-	// - undo `IconArrowBackUp`
-
 	// ? Could this be a map instead of function with switch case?
+	// ? If so do we need this function
 
 	switch (tile.state) {
 		case "unknown":
@@ -47,7 +35,7 @@ function getGameTileData(tile: GameTile): TileData {
 			if (tile.probability == 1) tileData.border = `2px solid ${COLOURS.maxProbabilityBorder}`;
 			tileData.buttons = [
 				{ icon: IconRipple, convertState: "miss" },
-				{ icon: IconFocus, convertState: "hit" },
+				{ icon: IconFocus2, convertState: "hit" },
 			];
 			break;
 
