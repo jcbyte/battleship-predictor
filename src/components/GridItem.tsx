@@ -23,11 +23,13 @@ interface TileData {
 // highProbabilityTile: "#1e3a8a", // blue-900
 // maxProbabilityBorder: "#dc2626cc", // red-600/80
 
-// The data for a game tile depending on its state
-const GAME_TILE_DATA: Record<CellState, TileData> = {
+// The data for a game tile depending on its state, the this can either give a value or a function which takes the GameTile and then returns
+const GAME_TILE_DATA: Record<CellState, { [K in keyof TileData]: TileData[K] | ((tile: GameTile) => TileData[K]) }> = {
 	unknown: {
 		title: "Unknown",
-		background: "#000000",
+		background: (tile) => {
+			return "#00ff00";
+		},
 		buttons: [
 			{ icon: <IconRipple />, label: "Miss", convertTo: "miss" },
 			{ icon: <IconFocus2 />, label: "Hit", convertTo: "hit" },
@@ -55,7 +57,20 @@ const GAME_TILE_DATA: Record<CellState, TileData> = {
 
 // Component to display the inner of a tile which is type game
 function BoardGridItem({ gameTile, setTileState }: { gameTile: GameTile; setTileState: (state: CellState) => void }) {
-	let tileData: TileData = GAME_TILE_DATA[gameTile.state];
+	// Get the tile data for this tile
+	let tileData: TileData = {
+		// If any parameters are lost then these will be used
+		title: "Error",
+		background: "#ff00ff",
+		buttons: [],
+		// Get the data from the map defined above
+		...Object.fromEntries(
+			Object.entries(GAME_TILE_DATA[gameTile.state]).map(([key, value]) => {
+				// If the entry is a function then call it and turn it into a real value
+				return [key, typeof value == "function" ? value(gameTile) : value];
+			})
+		),
+	};
 
 	return (
 		<div
