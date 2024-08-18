@@ -8,6 +8,8 @@ import { calculateProbabilities } from "./scripts/calculator";
 import { BOARD_SIZE, STARTING_SHIPS2 } from "./static";
 import { CellData, Ship } from "./types";
 
+// ? Would it make sense to split the probabilities and tiles into two separate boards?
+
 // Function to return a fresh blank board
 function getNewBoard(): CellData[][] {
 	return [...Array(BOARD_SIZE)].map((item, x) => {
