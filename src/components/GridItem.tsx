@@ -14,11 +14,17 @@ const COLOURS = {
 	maxProbabilityBorder: "#dc2626cc" /* red-600/80 */,
 };
 
+interface ButtonData {
+	icon: React.ReactNode;
+	label: string;
+	convertTo: CellState;
+}
+
 interface TileData {
 	background: string;
 	border?: string;
 	title: string;
-	buttons: { icon: React.ReactNode; convertState: CellState }[];
+	buttons: ButtonData[];
 }
 
 // Get the data for a game tile depending on its state
@@ -35,30 +41,30 @@ function getGameTileData(tile: GameTile): TileData {
 			tileData.background = colourLerpHex(COLOURS.lowProbabilityTile, COLOURS.highProbabilityTile, tile.probability);
 			if (tile.probability == 1) tileData.border = `2px solid ${COLOURS.maxProbabilityBorder}`;
 			tileData.buttons = [
-				{ icon: <IconRipple />, convertState: "miss" },
-				{ icon: <IconFocus2 />, convertState: "hit" },
+				{ icon: <IconRipple />, label: "Miss", convertTo: "miss" },
+				{ icon: <IconFocus2 />, label: "Hit", convertTo: "hit" },
 			];
 			break;
 
 		case "miss":
 			tileData.title = "Miss";
 			tileData.background = COLOURS.missTile;
-			tileData.buttons = [{ icon: <IconArrowBackUp />, convertState: "unknown" }];
+			tileData.buttons = [{ icon: <IconArrowBackUp />, label: "Undo", convertTo: "unknown" }];
 			break;
 
 		case "hit":
 			tileData.title = "Hit";
 			tileData.background = COLOURS.hitTile;
 			tileData.buttons = [
-				{ icon: <IconCaretDownFilled />, convertState: "sunk" },
-				{ icon: <IconArrowBackUp />, convertState: "unknown" },
+				{ icon: <IconCaretDownFilled />, label: "Sunk", convertTo: "sunk" },
+				{ icon: <IconArrowBackUp />, label: "Undo", convertTo: "unknown" },
 			];
 			break;
 
 		case "sunk":
 			tileData.title = "Sunk";
 			tileData.background = COLOURS.sunkTile;
-			tileData.buttons = [{ icon: <IconArrowBackUp />, convertState: "hit" }];
+			tileData.buttons = [{ icon: <IconArrowBackUp />, label: "Undo", convertTo: "hit" }];
 
 			break;
 	}
@@ -85,8 +91,9 @@ function BoardGridItem({ gameTile, setTileState }: { gameTile: GameTile; setTile
 						<IconButton
 							key={i}
 							icon={buttonData.icon}
+							label={buttonData.label}
 							onClick={() => {
-								setTileState(buttonData.convertState);
+								setTileState(buttonData.convertTo);
 							}}
 						/>
 					);
