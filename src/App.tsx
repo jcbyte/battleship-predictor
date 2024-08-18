@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import Board from "./components/Board";
-import Button from "./components/Button";
-import Checkbox from "./components/Checkbox";
+import Button from "./components/generic/Button";
+import Checkbox from "./components/generic/Checkbox";
 import ShipList from "./components/ShipList";
 import Signature from "./components/Signature";
 import { calculateProbabilities } from "./scripts/calculator";

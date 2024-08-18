@@ -1,5 +1,5 @@
-@import "components/Button.css";
-@import "components/Checkbox.css";
+@import "components/generic/Button.css";
+@import "components/generic/Checkbox.css";
 
 @tailwind base;
 @tailwind components;
