@@ -1,4 +1,4 @@
-export const VERSION = "v0.1.0";
+export const VERSION = "v0.2.0";
 
 export const BOARD_SIZE = 10;
 

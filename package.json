@@ -1,6 +1,6 @@
 {
 	"name": "battleship-predictor",
-	"version": "0.1.0",
+	"version": "0.2.0",
 	"private": true,
 	"dependencies": {
 		"@tabler/icons-react": "^3.12.0",
