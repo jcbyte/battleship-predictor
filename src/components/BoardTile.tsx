@@ -30,7 +30,7 @@ const GAME_TILE_DATA: Record<
 		},
 		// Show a border around the highest probability tiles
 		border: (probability) => {
-			return probability == 1 ? `2px solid #dc2626cc` /* red-600/80 */ : undefined;
+			return probability === 1 ? `2px solid #dc2626cc` /* red-600/80 */ : undefined;
 		},
 		buttons: [
 			{ icon: <IconRipple />, label: "Miss", convertTo: "miss" },
@@ -77,7 +77,7 @@ export default function BoardTile({
 		...Object.fromEntries(
 			Object.entries(GAME_TILE_DATA[state]).map(([key, value]) => {
 				// If the entry is a function then call it and turn it into a real value
-				return [key, typeof value == "function" ? value(probability) : value];
+				return [key, typeof value === "function" ? value(probability) : value];
 			})
 		),
 	};

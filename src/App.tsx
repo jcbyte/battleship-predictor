@@ -1,11 +1,11 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import Board from "./components/Board";
 import Button from "./components/generic/Button";
 import Checkbox from "./components/generic/Checkbox";
 import ShipList from "./components/ShipList";
 import Signature from "./components/Signature";
 import { calculateProbabilities } from "./scripts/calculator";
-import { BOARD_SIZE, STARTING_SHIPS2 } from "./static";
+import { BOARD_SIZE, STARTING_SHIPS } from "./static";
 import { CellState, Ship } from "./types";
 
 // Function to return a fresh blank board
@@ -19,7 +19,7 @@ function getNewBoard<T>(initial: T): T[][] {
 
 // Function to return a fresh list of ships
 function getNewShips(): Ship[] {
-	return STARTING_SHIPS2.map((length) => {
+	return STARTING_SHIPS.map((length) => {
 		return { length: length, sunk: false };
 	});
 }
@@ -34,9 +34,9 @@ export default function App() {
 	const [autoUpdateProbabilities, setAutoUpdateProbabilities] = useState<boolean>(true);
 
 	// Calculate new probabilities and set this to the board
-	function refreshBoard() {
+	const refreshBoard = useCallback(() => {
 		setBoardProbabilities(calculateProbabilities(board, ships));
-	}
+	}, [board, ships]);
 
 	// When the state of a tile or ship changes the board should be recalculated
 	useEffect(() => {
@@ -44,8 +44,8 @@ export default function App() {
 		if (autoUpdateProbabilities) {
 			refreshBoard();
 		}
-		// `autoUpdateProbabilities` is in this list so that when enabled it will refresh the board
-	}, [board, ships, autoUpdateProbabilities]);
+		// `autoUpdateProbabilities` is in this list so that when initially enabled it will refresh the board
+	}, [board, ships, autoUpdateProbabilities, refreshBoard]);
 
 	// Function to reset the board and ships to their default values
 	function reset() {

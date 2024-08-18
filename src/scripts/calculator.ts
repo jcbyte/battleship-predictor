@@ -1,5 +1,7 @@
-import { BOARD_SIZE, HIT_MULTIPLIER } from "../static";
+import { BOARD_SIZE } from "../static";
 import { CellState, Ship } from "../types";
+
+const HIT_MULTIPLIER: number = 20;
 
 // TODO this entire design should be re-thought as it has many flaws
 
@@ -31,7 +33,7 @@ export function calculateProbabilities(board: CellState[][], ships: Ship[]): num
 		for (let y = 0; y < BOARD_SIZE; y++) {
 			let thisValue: number = 0;
 			// The value only matters if the tile is in unknown state
-			if (board[x][y] == "unknown") {
+			if (board[x][y] === "unknown") {
 				// For each un-sunk ship check every possible location involving this tile
 				ships
 					.filter((ship: Ship) => !ship.sunk)
@@ -40,7 +42,7 @@ export function calculateProbabilities(board: CellState[][], ships: Ship[]): num
 						let possibleCells: CellState[] = [];
 						for (let i = -ship.length; i <= ship.length; i++) {
 							// Do not include itself
-							if (i == 0) continue;
+							if (i === 0) continue;
 
 							let newX: number = x - i;
 							if (newX >= 0 && newX < BOARD_SIZE) possibleCells.push(board[newX][y]);
@@ -51,8 +53,8 @@ export function calculateProbabilities(board: CellState[][], ships: Ship[]): num
 						// Calculate the value of this tile from the possible boat tiles
 						thisValue = possibleCells
 							.map((tile: CellState) => {
-								if (tile == "unknown") return 1;
-								if (tile == "hit") return HIT_MULTIPLIER;
+								if (tile === "unknown") return 1;
+								if (tile === "hit") return HIT_MULTIPLIER;
 								return 0;
 							})
 							.reduce((partialSum: number, a: number) => partialSum + a);
