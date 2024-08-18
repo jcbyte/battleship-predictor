@@ -5,17 +5,9 @@ import Checkbox from "./components/generic/Checkbox";
 import ShipList from "./components/ShipList";
 import Signature from "./components/Signature";
 import { calculateProbabilities } from "./scripts/calculator";
-import { BOARD_SIZE, STARTING_SHIPS } from "./static";
+import { getNewBoard } from "./scripts/utils";
+import { STARTING_SHIPS } from "./static";
 import { CellState, Ship } from "./types";
-
-// Function to return a fresh blank board
-function getNewBoard<T>(initial: T): T[][] {
-	return [...Array(BOARD_SIZE)].map((item, x) => {
-		return [...Array(BOARD_SIZE)].map(() => {
-			return initial;
-		});
-	});
-}
 
 // Function to return a fresh list of ships
 function getNewShips(): Ship[] {
