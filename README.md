@@ -14,10 +14,10 @@ Install dependencies
 npm install
 ```
 
-Start tailwind
+Start postcss
 
 ```bash
-npm run dev-tailwind
+npm run dev-css
 ```
 
 Start local development server
