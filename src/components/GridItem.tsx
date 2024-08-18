@@ -3,16 +3,6 @@ import { CellState, GameTile, Tile } from "../types";
 import { IconArrowBackUp, IconCaretDownFilled, IconFocus2, IconRipple } from "@tabler/icons-react";
 import IconButton from "./generic/IconButton";
 
-// ? Is this required if it is in the map as suggested below
-const COLOURS = {
-	lowProbabilityTile: "#bfdbfe", // blue-200
-	highProbabilityTile: "#1e3a8a", // blue-900
-	hitTile: "#dc2626", // red-600
-	sunkTile: "#991b1b", // red-800
-	missTile: "#4b5563", // gray-600
-	maxProbabilityBorder: "#dc2626cc", // red-600/80
-};
-
 interface ButtonData {
 	icon: React.ReactNode;
 	label: string;
@@ -29,6 +19,9 @@ interface TileData {
 // TODO live function in map for unknowns
 // tileData.background = colourLerpHex(COLOURS.lowProbabilityTile, COLOURS.highProbabilityTile, tile.probability);
 // if (tile.probability == 1) tileData.border = `2px solid ${COLOURS.maxProbabilityBorder}`;
+// lowProbabilityTile: "#bfdbfe", // blue-200
+// highProbabilityTile: "#1e3a8a", // blue-900
+// maxProbabilityBorder: "#dc2626cc", // red-600/80
 
 // The data for a game tile depending on its state
 const GAME_TILE_DATA: Record<CellState, TileData> = {
@@ -42,12 +35,12 @@ const GAME_TILE_DATA: Record<CellState, TileData> = {
 	},
 	miss: {
 		title: "Miss",
-		background: COLOURS.missTile,
+		background: "#4b5563", // gray-600
 		buttons: [{ icon: <IconArrowBackUp />, label: "Undo", convertTo: "unknown" }],
 	},
 	hit: {
 		title: "Hit",
-		background: COLOURS.hitTile,
+		background: "#dc2626", // red-600
 		buttons: [
 			{ icon: <IconCaretDownFilled />, label: "Sunk", convertTo: "sunk" },
 			{ icon: <IconArrowBackUp />, label: "Undo", convertTo: "unknown" },
@@ -55,7 +48,7 @@ const GAME_TILE_DATA: Record<CellState, TileData> = {
 	},
 	sunk: {
 		title: "Sunk",
-		background: COLOURS.sunkTile,
+		background: "#991b1b", // red-800
 		buttons: [{ icon: <IconArrowBackUp />, label: "Undo", convertTo: "hit" }],
 	},
 };
