@@ -1,0 +1,6 @@
+.my-icon-button {
+	@apply p-1 bg-gray-900/20 rounded-xl cursor-pointer;
+	@apply hover:bg-gray-900/40;
+	@apply active:bg-gray-900/80;
+	@apply transition-colors duration-100;
+}

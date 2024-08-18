@@ -2,6 +2,7 @@ import { colourLerpHex } from "../scripts/colorUtils";
 import { CellState, GameTile, Tile } from "../types";
 
 import { IconArrowBackUp, IconCaretDownFilled, IconFocus2, IconRipple } from "@tabler/icons-react";
+import IconButton from "./generic/IconButton";
 
 // ? Is this required if it is in the map as suggested below
 const COLOURS = {
@@ -80,17 +81,14 @@ function BoardGridItem({ gameTile, setTileState }: { gameTile: GameTile; setTile
 			<div className="text-md">{tileData.title}</div>
 			<div className="flex gap-1">
 				{tileData.buttons.map((buttonData, i) => {
-					// TODO give these icon buttons labels
 					return (
-						<div
+						<IconButton
 							key={i}
-							className="iconButton"
+							Icon={buttonData.icon}
 							onClick={() => {
 								setTileState(buttonData.convertState);
 							}}
-						>
-							<buttonData.icon />
-						</div>
+						/>
 					);
 				})}
 			</div>
