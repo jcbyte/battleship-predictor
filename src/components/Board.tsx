@@ -44,6 +44,7 @@ export default function Board({
 							<div key={`row-${rowNum}-container`} className="flex gap-[2px]">
 								{/* First tile on each row is the row label */}
 								<LabelTile key={`row-${rowNum}-label`} label={ROW_IDENTIFIERS[rowNum]} />
+								{/* Then display all of the actual board */}
 								{[...Array(BOARD_SIZE)].map((_, colNum) => {
 									return (
 										<BoardTile

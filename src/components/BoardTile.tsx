@@ -57,7 +57,7 @@ const GAME_TILE_DATA: Record<
 	},
 };
 
-// Component to display the inner of a tile which is type game
+// Component to display the inner of a board tile
 export default function BoardTile({
 	state,
 	probability,

@@ -1,5 +1,6 @@
 import GridItem from "./GridItem";
 
+// Component to display the inner of a label tile
 export default function LabelTile({ label }: { label: string }) {
 	return (
 		<GridItem>
