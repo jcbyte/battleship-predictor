@@ -34,18 +34,18 @@ export default function Board({
 						{/* Top left tile is blank */}
 						<LabelTile key="col-0-row-0-blank" label="" />
 						{/* Top row contains the column labels */}
-						{[...Array(BOARD_SIZE)].map((_, i) => {
+						{[...Array(BOARD_SIZE)].map((_, i: number) => {
 							return <LabelTile key={`col-${i}-label`} label={COLUMN_IDENTIFIERS[i]} />;
 						})}
 					</div>
 
-					{[...Array(BOARD_SIZE)].map((_, rowNum) => {
+					{[...Array(BOARD_SIZE)].map((_, rowNum: number) => {
 						return (
 							<div key={`row-${rowNum}-container`} className="flex gap-[2px]">
 								{/* First tile on each row is the row label */}
 								<LabelTile key={`row-${rowNum}-label`} label={ROW_IDENTIFIERS[rowNum]} />
 								{/* Then display all of the actual board */}
-								{[...Array(BOARD_SIZE)].map((_, colNum) => {
+								{[...Array(BOARD_SIZE)].map((_, colNum: number) => {
 									return (
 										<BoardTile
 											key={`row-${rowNum}-col-${colNum}`}

@@ -93,7 +93,7 @@ export default function BoardTile({
 			>
 				<div className="text-md">{tileData.title}</div>
 				<div className="flex gap-1">
-					{tileData.buttons.map((buttonData, i) => {
+					{tileData.buttons.map((buttonData: ButtonData, i: number) => {
 						return (
 							<IconButton
 								key={i}

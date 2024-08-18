@@ -13,7 +13,7 @@ export default function ShipList({
 		<div className="border-2 border-gray-700 p-2 rounded flex flex-col gap-2 items-center">
 			<div className="font-semibold">Remaining Ships:</div>
 			<div className="flex gap-4">
-				{ships.map((ship, i) => {
+				{ships.map((ship: Ship, i: number) => {
 					return (
 						<div key={i}>
 							<Checkbox

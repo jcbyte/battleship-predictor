@@ -29,33 +29,33 @@ export function calculateProbabilities(board: CellState[][], ships: Ship[]): num
 	// Calculate the value of every tile on the board
 	for (let x = 0; x < BOARD_SIZE; x++) {
 		for (let y = 0; y < BOARD_SIZE; y++) {
-			let thisValue = 0;
+			let thisValue: number = 0;
 			// The value only matters if the tile is in unknown state
 			if (board[x][y] == "unknown") {
 				// For each un-sunk ship check every possible location involving this tile
 				ships
-					.filter((ship) => !ship.sunk)
-					.forEach((ship) => {
+					.filter((ship: Ship) => !ship.sunk)
+					.forEach((ship: Ship) => {
 						// Add all possible connecting tile
 						let possibleCells: CellState[] = [];
 						for (let i = -ship.length; i <= ship.length; i++) {
 							// Do not include itself
 							if (i == 0) continue;
 
-							let newX = x - i;
+							let newX: number = x - i;
 							if (newX >= 0 && newX < BOARD_SIZE) possibleCells.push(board[newX][y]);
-							let newY = y - i;
+							let newY: number = y - i;
 							if (newY >= 0 && newY < BOARD_SIZE) possibleCells.push(board[x][newY]);
 						}
 
 						// Calculate the value of this tile from the possible boat tiles
 						thisValue = possibleCells
-							.map((tile) => {
+							.map((tile: CellState) => {
 								if (tile == "unknown") return 1;
 								if (tile == "hit") return HIT_MULTIPLIER;
 								return 0;
 							})
-							.reduce((partialSum, a) => partialSum + a);
+							.reduce((partialSum: number, a: number) => partialSum + a);
 					});
 
 				if (thisValue > maxValue) maxValue = thisValue;
@@ -65,8 +65,8 @@ export function calculateProbabilities(board: CellState[][], ships: Ship[]): num
 	}
 
 	// Create new board with updated probabilities
-	let boardProbabilities: number[][] = [...Array(BOARD_SIZE)].map((item, x) => {
-		return [...Array(BOARD_SIZE)].map((item, y) => {
+	let boardProbabilities: number[][] = [...Array(BOARD_SIZE)].map((_, x: number) => {
+		return [...Array(BOARD_SIZE)].map((_, y: number) => {
 			return values[x][y] / maxValue;
 		});
 	});
