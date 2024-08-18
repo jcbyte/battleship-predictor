@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import Board from "./components/Board";
 import Button from "./components/generic/Button";
 import Checkbox from "./components/generic/Checkbox";
@@ -26,7 +26,7 @@ function getNewShips(): Ship[] {
 
 export default function App() {
 	// These states contain the state of the game
-	const [board, setBoard] = useState<CellState[][]>(getNewBoard("unknown" as CellState));
+	const [board, setBoard] = useState<CellState[][]>(getNewBoard<CellState>("unknown"));
 	const [boardProbabilities, setBoardProbabilities] = useState<number[][]>(getNewBoard(0));
 	const [ships, setShips] = useState<Ship[]>(getNewShips());
 
@@ -38,27 +38,18 @@ export default function App() {
 		setBoardProbabilities(calculateProbabilities(board, ships));
 	}
 
-	// ref is used to stop infinite update loops when board is updated via useEffect
-	const boardUpdating = useRef<boolean>(false);
-
 	// When the state of a tile or ship changes the board should be recalculated
 	useEffect(() => {
 		// If we should refresh the board automatically
 		if (autoUpdateProbabilities) {
-			// If this call is fresh (not from just updating) then we want to update i
-			if (!boardUpdating.current) {
-				boardUpdating.current = true;
-				refreshBoard();
-			} else {
-				boardUpdating.current = false;
-			}
+			refreshBoard();
 		}
 		// `autoUpdateProbabilities` is in this list so that when enabled it will refresh the board
 	}, [board, ships, autoUpdateProbabilities]);
 
 	// Function to reset the board and ships to their default values
 	function reset() {
-		setBoard(getNewBoard("unknown" as CellState));
+		setBoard(getNewBoard<CellState>("unknown"));
 		setBoardProbabilities(getNewBoard(0));
 		setShips(getNewShips());
 	}
