@@ -1,4 +1,4 @@
-input[type="button"].my-button {
+.my-button {
 	@apply appearance-none;
 	@apply border p-1 border-gray-600 rounded cursor-pointer;
 	@apply hover:ring-1 hover:ring-blue-600;
@@ -6,7 +6,7 @@ input[type="button"].my-button {
 	@apply transition-colors duration-100;
 }
 
-input[type="button"]:disabled.my-button {
+.my-button:disabled {
 	@apply disabled:bg-gray-800 disabled:text-gray-400 disabled:cursor-auto;
 	@apply disabled:hover:ring-0;
 }

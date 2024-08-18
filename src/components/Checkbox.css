@@ -1,4 +1,4 @@
-input[type="checkbox"].my-checkbox {
+.my-checkbox {
 	@apply appearance-none relative;
 	@apply size-4 border border-gray-600 rounded cursor-pointer;
 	@apply hover:ring-1 hover:ring-blue-600;
@@ -6,11 +6,11 @@ input[type="checkbox"].my-checkbox {
 	@apply transition-colors duration-100;
 }
 
-input[type="checkbox"]:checked::before.my-checkbox {
+.my-checkbox:checked::before {
 	@apply absolute;
 	@apply content-['✔'] text-sm left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2;
 }
 
-input[type="checkbox"]:checked::before.my-checkbox.checkbox-cross {
-	@apply !content-['✘'];
+.my-checkbox.checkbox-cross:checked::before {
+	@apply content-['✘'];
 }
