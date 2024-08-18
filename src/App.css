@@ -25,19 +25,6 @@ input[type="checkbox"]:checked::before.checkbox-cross {
 	@apply !content-['✘'];
 }
 
-input[type="button"] {
-	@apply appearance-none;
-	@apply border p-1 border-gray-600 rounded cursor-pointer;
-	@apply hover:ring-1 hover:ring-blue-600;
-	@apply active:bg-blue-600;
-	@apply transition-colors duration-100;
-}
-
-input[type="button"]:disabled {
-	@apply bg-gray-800 text-gray-400 cursor-auto;
-	@apply hover:ring-0;
-}
-
 .iconButton {
 	@apply p-1 bg-gray-900/20 rounded-xl cursor-pointer;
 	@apply hover:bg-gray-900/40;

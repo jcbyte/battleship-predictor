@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import Board from "./components/Board";
+import Button from "./components/Button";
 import ShipList from "./components/ShipList";
 import Signature from "./components/Signature";
 import { calculateProbabilities } from "./scripts/calculator";
@@ -79,10 +80,10 @@ export default function App() {
 						/>
 						<span>Automatically Refresh</span>
 					</label>
-					<input type="button" value="Refresh" onClick={refreshBoard} disabled={autoUpdateProbabilities} />
+					<Button value="Refresh" onClick={refreshBoard} disabled={autoUpdateProbabilities} />
 				</div>
 
-				<input type="button" value="Reset" onClick={reset} />
+				<Button value="Reset" onClick={reset} />
 			</div>
 
 			<Signature />
