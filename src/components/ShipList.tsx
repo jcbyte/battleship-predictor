@@ -1,4 +1,5 @@
 import { Ship } from "../types";
+import Checkbox from "./Checkbox";
 
 // Component to display and control which ships have been sunk
 export default function ShipList({
@@ -15,21 +16,18 @@ export default function ShipList({
 				{ships.map((ship, i) => {
 					return (
 						<div key={i}>
-							<label className="flex gap-1 items-center">
-								<input
-									type="checkbox"
-									className="checkbox-cross"
-									checked={ship.sunk}
-									onChange={(e) => {
-										setShips((prevShips) => {
-											let newShips: Ship[] = [...prevShips];
-											newShips[i].sunk = e.target.checked;
-											return newShips;
-										});
-									}}
-								/>
-								<span style={{ textDecoration: ship.sunk ? "line-through" : "none" }}>{ship.length} Ship</span>
-							</label>
+							<Checkbox
+								label={<span style={{ textDecoration: ship.sunk ? "line-through" : "none" }}>{ship.length} Ship</span>}
+								cross
+								checked={ship.sunk}
+								onChange={(e) => {
+									setShips((prevShips) => {
+										let newShips: Ship[] = [...prevShips];
+										newShips[i].sunk = e.target.checked;
+										return newShips;
+									});
+								}}
+							/>
 						</div>
 					);
 				})}

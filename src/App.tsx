@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import Board from "./components/Board";
 import Button from "./components/Button";
+import Checkbox from "./components/Checkbox";
 import ShipList from "./components/ShipList";
 import Signature from "./components/Signature";
 import { calculateProbabilities } from "./scripts/calculator";
@@ -70,16 +71,13 @@ export default function App() {
 				<ShipList ships={ships} setShips={setShips} />
 
 				<div className="flex gap-2">
-					<label className="flex gap-1 items-center">
-						<input
-							type="checkbox"
-							checked={autoUpdateProbabilities}
-							onChange={(e) => {
-								setAutoUpdateProbabilities(e.target.checked);
-							}}
-						/>
-						<span>Automatically Refresh</span>
-					</label>
+					<Checkbox
+						label="Automatically Refresh"
+						checked={autoUpdateProbabilities}
+						onChange={(e) => {
+							setAutoUpdateProbabilities(e.target.checked);
+						}}
+					/>
 					<Button value="Refresh" onClick={refreshBoard} disabled={autoUpdateProbabilities} />
 				</div>
 
