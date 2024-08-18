@@ -18,7 +18,7 @@ interface TileData {
 	background: string;
 	border?: string;
 	title: string;
-	buttons: { icon: any; convertState: CellState }[];
+	buttons: { icon: React.ReactNode; convertState: CellState }[];
 }
 
 // Get the data for a game tile depending on its state
@@ -35,30 +35,30 @@ function getGameTileData(tile: GameTile): TileData {
 			tileData.background = colourLerpHex(COLOURS.lowProbabilityTile, COLOURS.highProbabilityTile, tile.probability);
 			if (tile.probability == 1) tileData.border = `2px solid ${COLOURS.maxProbabilityBorder}`;
 			tileData.buttons = [
-				{ icon: IconRipple, convertState: "miss" },
-				{ icon: IconFocus2, convertState: "hit" },
+				{ icon: <IconRipple />, convertState: "miss" },
+				{ icon: <IconFocus2 />, convertState: "hit" },
 			];
 			break;
 
 		case "miss":
 			tileData.title = "Miss";
 			tileData.background = COLOURS.missTile;
-			tileData.buttons = [{ icon: IconArrowBackUp, convertState: "unknown" }];
+			tileData.buttons = [{ icon: <IconArrowBackUp />, convertState: "unknown" }];
 			break;
 
 		case "hit":
 			tileData.title = "Hit";
 			tileData.background = COLOURS.hitTile;
 			tileData.buttons = [
-				{ icon: IconCaretDownFilled, convertState: "sunk" },
-				{ icon: IconArrowBackUp, convertState: "unknown" },
+				{ icon: <IconCaretDownFilled />, convertState: "sunk" },
+				{ icon: <IconArrowBackUp />, convertState: "unknown" },
 			];
 			break;
 
 		case "sunk":
 			tileData.title = "Sunk";
 			tileData.background = COLOURS.sunkTile;
-			tileData.buttons = [{ icon: IconArrowBackUp, convertState: "hit" }];
+			tileData.buttons = [{ icon: <IconArrowBackUp />, convertState: "hit" }];
 
 			break;
 	}
@@ -84,7 +84,7 @@ function BoardGridItem({ gameTile, setTileState }: { gameTile: GameTile; setTile
 					return (
 						<IconButton
 							key={i}
-							Icon={buttonData.icon}
+							icon={buttonData.icon}
 							onClick={() => {
 								setTileState(buttonData.convertState);
 							}}
