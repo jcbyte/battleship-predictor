@@ -1,5 +1,5 @@
 import { BOARD_SIZE } from "../static";
-import { CellData, CellState } from "../types";
+import { CellState } from "../types";
 import GridItem from "./GridItem";
 
 const COLUMN_IDENTIFIERS = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16"];
@@ -8,17 +8,19 @@ const ROW_IDENTIFIERS = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", 
 // Component to display each of the tiles from the passed board, including any column and row labels
 export default function Board({
 	board,
+	boardProbabilities,
 	setBoard,
 }: {
-	board: CellData[][];
-	setBoard: React.Dispatch<React.SetStateAction<CellData[][]>>;
+	board: CellState[][];
+	boardProbabilities: number[][];
+	setBoard: React.Dispatch<React.SetStateAction<CellState[][]>>;
 }) {
 	// Function to change the state of a tile given its row and col
 	function setTileState(state: CellState, row: number, col: number): void {
 		setBoard((prev) => {
 			// This only creates a shallow copy, does this cause issues?
-			let newBoard: CellData[][] = [...prev];
-			newBoard[row][col].state = state;
+			let newBoard: CellState[][] = [...prev];
+			newBoard[row][col] = state;
 			return newBoard;
 		});
 	}
@@ -36,16 +38,20 @@ export default function Board({
 						})}
 					</div>
 
-					{board.map((boardRow, rowNum) => {
+					{[...Array(BOARD_SIZE)].map((_, rowNum) => {
 						return (
 							<div key={`row-${rowNum}-container`} className="flex gap-[2px]">
 								{/* First tile on each row is the row label */}
 								<GridItem key={`row-${rowNum}-label`} tile={{ type: "label", text: ROW_IDENTIFIERS[rowNum] }} />
-								{boardRow.map((cell: CellData, colNum) => {
+								{[...Array(BOARD_SIZE)].map((_, colNum) => {
 									return (
 										<GridItem
 											key={`row-${rowNum}-col-${colNum}`}
-											tile={{ type: "game", ...cell }}
+											tile={{
+												type: "game",
+												state: board[rowNum][colNum],
+												probability: boardProbabilities[rowNum][colNum],
+											}}
 											setTileState={(state: CellState) => {
 												setTileState(state, rowNum, colNum);
 											}}
