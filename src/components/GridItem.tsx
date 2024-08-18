@@ -1,6 +1,7 @@
 import { CellState, GameTile, Tile } from "../types";
 
 import { IconArrowBackUp, IconCaretDownFilled, IconFocus2, IconRipple } from "@tabler/icons-react";
+import { colourLerpHex } from "../scripts/colorUtils";
 import IconButton from "./generic/IconButton";
 
 interface ButtonData {
@@ -16,19 +17,17 @@ interface TileData {
 	buttons: ButtonData[];
 }
 
-// TODO live function in map for unknowns
-// tileData.background = colourLerpHex(COLOURS.lowProbabilityTile, COLOURS.highProbabilityTile, tile.probability);
-// if (tile.probability == 1) tileData.border = `2px solid ${COLOURS.maxProbabilityBorder}`;
-// lowProbabilityTile: "#bfdbfe", // blue-200
-// highProbabilityTile: "#1e3a8a", // blue-900
-// maxProbabilityBorder: "#dc2626cc", // red-600/80
-
 // The data for a game tile depending on its state, the this can either give a value or a function which takes the GameTile and then returns
 const GAME_TILE_DATA: Record<CellState, { [K in keyof TileData]: TileData[K] | ((tile: GameTile) => TileData[K]) }> = {
 	unknown: {
 		title: "Unknown",
+		// Create a gradient between low and high probability
 		background: (tile) => {
-			return "#00ff00";
+			return colourLerpHex("#bfdbfe", /* blue-200 */ "#1e3a8a", /* blue-900 */ tile.probability);
+		},
+		// Show a border around the highest probability tiles
+		border: (tile) => {
+			return tile.probability == 1 ? `2px solid #dc2626cc` /* red-600/80 */ : undefined;
 		},
 		buttons: [
 			{ icon: <IconRipple />, label: "Miss", convertTo: "miss" },
