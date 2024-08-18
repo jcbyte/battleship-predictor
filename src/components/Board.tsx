@@ -1,6 +1,7 @@
 import { BOARD_SIZE } from "../static";
 import { CellState } from "../types";
-import GridItem from "./GridItem";
+import BoardTile from "./BoardTile";
+import LabelTile from "./LabelTile";
 
 const COLUMN_IDENTIFIERS = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16"];
 const ROW_IDENTIFIERS = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P"];
@@ -31,10 +32,10 @@ export default function Board({
 				<div className="flex flex-col gap-[2px]">
 					<div className="flex gap-[2px]">
 						{/* Top left tile is blank */}
-						<GridItem key="col-0-row-0-blank" tile={{ type: "label", text: "" }} />
+						<LabelTile key="col-0-row-0-blank" label="" />
 						{/* Top row contains the column labels */}
 						{[...Array(BOARD_SIZE)].map((_, i) => {
-							return <GridItem key={`col-${i}-label`} tile={{ type: "label", text: COLUMN_IDENTIFIERS[i] }} />;
+							return <LabelTile key={`col-${i}-label`} label={COLUMN_IDENTIFIERS[i]} />;
 						})}
 					</div>
 
@@ -42,17 +43,14 @@ export default function Board({
 						return (
 							<div key={`row-${rowNum}-container`} className="flex gap-[2px]">
 								{/* First tile on each row is the row label */}
-								<GridItem key={`row-${rowNum}-label`} tile={{ type: "label", text: ROW_IDENTIFIERS[rowNum] }} />
+								<LabelTile key={`row-${rowNum}-label`} label={ROW_IDENTIFIERS[rowNum]} />
 								{[...Array(BOARD_SIZE)].map((_, colNum) => {
 									return (
-										<GridItem
+										<BoardTile
 											key={`row-${rowNum}-col-${colNum}`}
-											tile={{
-												type: "game",
-												state: board[rowNum][colNum],
-												probability: boardProbabilities[rowNum][colNum],
-											}}
-											setTileState={(state: CellState) => {
+											state={board[rowNum][colNum]}
+											probability={boardProbabilities[rowNum][colNum]}
+											setState={(state: CellState) => {
 												setTileState(state, rowNum, colNum);
 											}}
 										/>
