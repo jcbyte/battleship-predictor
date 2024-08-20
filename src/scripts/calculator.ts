@@ -3,14 +3,12 @@ import { CellState, Ship } from "../types";
 import { factorial, getNewBoard } from "./utils";
 
 // Function to return how the number of hits on a ship affects the heatmap
+// This function is to increase the value for adjacent hits
+// If the hits calculations don't seem right this function should be edited
 function hitsScaling(hits: number): number {
-	// If 0 then there is still a valid ship so there should be 1
-	if (hits == 0) {
-		return 1;
-	}
+	// Do not return a value if no hits were found
+	if (hits == 0) return 0;
 
-	// This function is to increase the value for hits and adjacent hits
-	// If the hits calculations don't seem right this function should be edited
 	return factorial(hits * 2);
 }
 
@@ -86,8 +84,11 @@ export function calculateProbabilities(board: CellState[][], ships: Ship[]): num
 	// We consider each possible horizontal and vertical placement for every ship that has not been sunk.
 	// For each potential placement, we check if the cells are valid (i.e., not marked as "miss" or "sunk").
 	// If the placement is valid, the values for all the corresponding cells that ship would cover are incremented.
-	// The increment is based on the number of hits the possible placement has so we can target known locations.
+	// If in "Target Mode" (there exists a hit on the board) only the ships with hits in them will be incremented, this is also scaled to have bias towards adjacent hits.
 	// After calculating all the values, they are normalized by dividing by the highest score.
+
+	// If there is a hit anywhere on the board then we only want to increment ships which have hits
+	let targetMode: boolean = board.some((row) => row.some((state) => state == "hit"));
 
 	let heatmap: number[][] = getNewBoard(0);
 
@@ -99,13 +100,31 @@ export function calculateProbabilities(board: CellState[][], ships: Ship[]): num
 				// If the ship would fit horizontally then increment each of the possible tiles
 				let horizontal = isShipValid(board, row, col, ship.length, "horizontal");
 				if (horizontal.valid) {
-					incrementShipHeatmap(board, heatmap, hitsScaling(horizontal.hits), row, col, ship.length, "horizontal");
+					incrementShipHeatmap(
+						board,
+						heatmap,
+						// If in hit mode then the ships without hits will not be incremented
+						targetMode ? hitsScaling(horizontal.hits) : 1,
+						row,
+						col,
+						ship.length,
+						"horizontal"
+					);
 				}
 
 				// If the ship would fit vertically then increment each of the possible tiles
 				let vertical = isShipValid(board, row, col, ship.length, "vertical");
 				if (vertical.valid) {
-					incrementShipHeatmap(board, heatmap, hitsScaling(vertical.hits), row, col, ship.length, "vertical");
+					incrementShipHeatmap(
+						board,
+						heatmap,
+						// If in hit mode then the ships without hits will not be incremented
+						targetMode ? hitsScaling(vertical.hits) : 1,
+						row,
+						col,
+						ship.length,
+						"vertical"
+					);
 				}
 			}
 		}
