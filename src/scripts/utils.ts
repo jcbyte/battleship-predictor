@@ -8,3 +8,7 @@ export function getNewBoard<T>(initial: T): T[][] {
 		});
 	});
 }
+
+export function factorial(n: number): number {
+	return n <= 1 ? 1 : n * factorial(n - 1);
+}
