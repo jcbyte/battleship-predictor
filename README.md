@@ -26,10 +26,6 @@ Start local development server
 npm run dev
 ```
 
-## Tech Stack
+## Licence
 
-React, Typescript, TailwindCSS
-
-## Authors
-
-- [@jcbyte](https://www.github.com/jcbyte)
+[Apache License 2.0](LICENSE)
